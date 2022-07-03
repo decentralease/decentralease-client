@@ -9,7 +9,6 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import AdminNavbarLinks from "./NavbarLinksAdmin";
 
@@ -149,10 +148,8 @@ const AdminNavbar : React.FC<Props> = ({
         <Box ms='auto' w={{ sm: "100%", md: "unset" }}>
           <AdminNavbarLinks
             onOpen={onOpen}
-            // logoText={props.logoText}
             secondary={secondary}
             fixed={fixed}
-            // scrolled={scrolled}
           />
         </Box>
       </Flex>
