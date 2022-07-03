@@ -162,9 +162,6 @@ const Dashboard = () => {
               </Switch> */}
             </Box>
           ) : null}
-          <Box>
-            <Footer />
-          </Box>
         </Box>
       </SidebarContext.Provider>
     </Box>
