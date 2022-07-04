@@ -19,7 +19,6 @@ import { SidebarResponsive } from "../sidebar/Sidebar";
 import PropTypes from "prop-types";
 import React from "react";
 // Assets
-import { MdOutlineAccountBalanceWallet } from "react-icons/md";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
 import { FaEthereum } from "react-icons/fa";
 import routes from "../../routes";
@@ -93,7 +92,8 @@ export default function HeaderLinks(props) {
         minH='unset'
         h='18px'
         w='max-content'
-        onClick={toggleColorMode}>
+        onClick={toggleColorMode}
+      >
         <Icon
           me='10px'
           h='18px'
@@ -102,24 +102,7 @@ export default function HeaderLinks(props) {
           as={colorMode === "light" ? IoMdMoon : IoMdSunny}
         />
       </Button>
-      <Menu>
-        <MenuButton p='0px'>
-          <Avatar
-            _hover={{ cursor: "pointer" }}
-            color='white'
-            bg='#11047A'
-            size='sm'
-            w='40px'
-            h='40px'
-            icon={
-              <MdOutlineAccountBalanceWallet 
-                size={20}
-              />
-            }
-          />
-        </MenuButton>
-        <WalletConnect />
-      </Menu>
+      <WalletConnect />
     </Flex>
   );
 }

@@ -25,7 +25,7 @@ const AdminNavbar : React.FC<Props> = ({
   secondary,
   message,
   fixed,
-  onOpen
+  onOpen,
 }) => {
   const [scrolled, setScrolled] = useState<boolean>(false);
 
@@ -108,24 +108,12 @@ const AdminNavbar : React.FC<Props> = ({
           sm: "column",
           md: "row",
         }}
-        alignItems={{ xl: "center" }}
+        alignItems={{ md: "center" }}
         mb={gap}
       >
-        <Box mb={{ sm: "8px", md: "0px" }}>
-          <Breadcrumb>
-            <BreadcrumbItem color={secondaryText} fontSize='sm' mb='5px'>
-              <BreadcrumbLink href='#' color={secondaryText}>
-                Pages
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-
-            <BreadcrumbItem color={secondaryText} fontSize='sm'>
-              <BreadcrumbLink href='#' color={secondaryText}>
-                {brandText}
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-          </Breadcrumb>
-          {/* Here we create navbar brand, based on route name */}
+        <Box 
+          mb={{ sm: "8px", md: "0px" }}
+        >
           <Link
             color={mainText}
             href='#'
@@ -141,8 +129,11 @@ const AdminNavbar : React.FC<Props> = ({
             }}
             _focus={{
               boxShadow: "none",
-            }}>
-            {brandText}
+            }}
+          >
+            <Text>
+              {brandText}
+            </Text>
           </Link>
         </Box>
         <Box ms='auto' w={{ sm: "100%", md: "unset" }}>

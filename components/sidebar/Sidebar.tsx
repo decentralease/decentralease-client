@@ -14,12 +14,6 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import Content from "./components/Content";
-import {
-  renderThumb,
-  renderTrack,
-  renderView,
-} from "../scrollbar/Scrollbar";
-import { Scrollbars } from "react-custom-scrollbars-2";
 
 // Assets
 import { IoMenuOutline } from "react-icons/io5";
@@ -53,16 +47,9 @@ const Sidebar : React.FC<Props> = ({ routes }) => {
         h='100vh'
         minH='100%'
         overflowX='hidden'
-        boxShadow={shadow}
+        // boxShadow={shadow}
       >
-        <Scrollbars
-          autoHide
-          renderTrackVertical={renderTrack}
-          renderThumbVertical={renderThumb}
-          renderView={renderView}
-        >
-          <Content routes={routes} />
-        </Scrollbars>
+        <Content routes={routes} />
       </Box>
     </Box>
   );
@@ -101,13 +88,7 @@ export const SidebarResponsive : React.FC<Props> = ({ routes }) => {
             _hover={{ boxShadow: "none" }}
           />
           <DrawerBody maxW='285px' px='0rem' pb='0'>
-            <Scrollbars
-              autoHide
-              renderTrackVertical={renderTrack}
-              renderThumbVertical={renderThumb}
-              renderView={renderView}>
-              <Content routes={routes} />
-            </Scrollbars>
+            <Content routes={routes} />
           </DrawerBody>
         </DrawerContent>
       </Drawer>

@@ -1,44 +1,30 @@
 // Chakra imports
 import { Portal, Box, useDisclosure } from "@chakra-ui/react";
 // Layout components
-import Footer from "../components/footer/FooterAdmin";
 import Navbar from "../components/navbar/NavbarAdmin";
 import Sidebar from "../components/sidebar/Sidebar";
 import { SidebarContext } from "../contexts/SidebarContext";
-import React, { useState } from "react";
+import React, { useState, createRef } from "react";
 
 import { useRouter } from "next/router";
 import routes from "../routes";
 
+interface Props {
+  children: React.ReactNode;
+}
+
 // Custom Chakra theme
-const Dashboard = () => {
+const Layout : React.FC<Props> = ({ children }) => {
   // states and functions
   const router = useRouter();
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
-  // functions for changing the states from components
-  const getRoute = () => {
-    return router.asPath !== "/admin/full-screen-maps";
-  };
+
   const getActiveRoute = (routes) => {
     let activeRoute = "Renting NFTs";
     for (let i = 0; i < routes.length; i++) {
-      if (routes[i].collapse) {
-        let collapseActiveRoute = getActiveRoute(routes[i].items);
-        if (collapseActiveRoute !== activeRoute) {
-          return collapseActiveRoute;
-        }
-      } else if (routes[i].category) {
-        let categoryActiveRoute = getActiveRoute(routes[i].items);
-        if (categoryActiveRoute !== activeRoute) {
-          return categoryActiveRoute;
-        }
-      } else {
-        if (
-          router.asPath.indexOf(routes[i].layout + routes[i].path) !== -1
-        ) {
-          return routes[i].name;
-        }
+      if(router.asPath === routes[i].path){
+        activeRoute = routes[i].name;
       }
     }
     return activeRoute;
@@ -89,29 +75,8 @@ const Dashboard = () => {
     }
     return activeNavbar;
   };
-  const getRoutes = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
-        return (
-            null
-        //   <Route
-        //     path={prop.layout + prop.path}
-        //     component={prop.component}
-        //     key={key}
-        //   />
-        );
-      }
-      if (prop.collapse) {
-        return getRoutes(prop.items);
-      }
-      if (prop.category) {
-        return getRoutes(prop.items);
-      } else {
-        return null;
-      }
-    });
-  };
   const { onOpen } = useDisclosure();
+
   return (
     <Box>
       <SidebarContext.Provider
@@ -138,7 +103,7 @@ const Dashboard = () => {
           transitionTimingFunction='linear, linear, ease'
         >
           <Portal>
-            <Box>
+            <div>
               <Navbar
                 onOpen={onOpen}
                 brandText={getActiveRoute(routes)}
@@ -146,26 +111,21 @@ const Dashboard = () => {
                 message={getActiveNavbarText(routes)}
                 fixed={fixed}
               />
-            </Box>
+            </div>
           </Portal>
-
-          {getRoute() ? (
-            <Box
-              mx='auto'
-              p={{ base: "20px", md: "30px" }}
-              pe='20px'
-              minH='100vh'
-              pt='50px'>
-              {/* <Switch>
-                {getRoutes(routes)}
-                <Redirect from='/' to='/admin/default' />
-              </Switch> */}
-            </Box>
-          ) : null}
+          <Box
+            mx='auto'
+            px={{ base: "20px", md: "30px" }}
+            pe='20px'
+            minH='100vh'
+            pt={`150px`}
+          >
+            {children}
+          </Box>
         </Box>
       </SidebarContext.Provider>
     </Box>
   );
 }
 
-export default Dashboard;
+export default Layout;

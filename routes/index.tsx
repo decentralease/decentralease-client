@@ -2,60 +2,72 @@ import React from "react";
 
 import { Icon } from "@chakra-ui/react";
 import {
-  MdBarChart,
-  MdPerson,
   MdHome,
-  MdLock,
-  MdOutlineShoppingCart,
+  MdAttachMoney,
+  MdAddBox,
+  MdOutlineAccountBalanceWallet,
 } from "react-icons/md";
 
-const routes = [
+interface Route {
+  name: string;
+  path: string;
+  icon: React.ReactNode;
+  component: React.FC;
+}
+
+const routes : Route[] = [
   {
     name: "Home",
     path: "/",
-    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
+    icon: (
+      <Icon 
+        as={MdHome} 
+        width='20px' 
+        height='20px' 
+        color='inherit' 
+      />
+    ),
     component: null,
   },
   {
-    name: "Rentals",
-    path: "/rentals",
+    name: "Marketplace",
+    path: "/marketplace",
     icon: (
       <Icon
-        as={MdOutlineShoppingCart}
+        as={MdAttachMoney}
         width='20px'
         height='20px'
         color='inherit'
       />
     ),
     component: null,
-    secondary: true,
   },
   {
-    name: "Marketplace",
-    icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
-    path: "/marketplace",
+    name: "Create",
+    icon: (
+      <Icon 
+        as={MdAddBox}
+        width='20px' 
+        height='20px' 
+        color='inherit' 
+      />
+    ),
+    path: "/create",
     component: null,
   },
   {
-    name: "Profile",
-    path: "/profile",
-    icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
+    name: "Wallet",
+    path: "/wallet",
+    icon: (
+      <Icon 
+        as={MdOutlineAccountBalanceWallet} 
+        width='20px' 
+        height='20px' 
+        color='inherit' 
+      />
+    ),
     component: null,
-  },
-  {
-    name: "Sign In",
-    layout: "/auth",
-    path: "/sign-in",
-    icon: <Icon as={MdLock} width='20px' height='20px' color='inherit' />,
-    component: null,
-  },
-  {
-    name: "RTL Admin",
-    layout: "/rtl",
-    path: "/rtl-default",
-    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
-    component: null,
-  },
+  }
 ];
 
 export default routes;

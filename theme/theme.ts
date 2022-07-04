@@ -9,9 +9,11 @@ import { textareaStyles } from "./components/textarea";
 import { switchStyles } from "./components/switch";
 import { linkStyles } from "./components/link";
 import { breakpoints } from "./foundations/breakpoints";
+import { fonts } from "./foundations/fonts";
 import { globalStyles } from "./styles";
 export default extendTheme(
   { breakpoints }, // Breakpoints
+  { fonts }, // Fonts
   globalStyles,
   badgeStyles, // badge styles
   buttonStyles, // button styles

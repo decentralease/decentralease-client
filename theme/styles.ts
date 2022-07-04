@@ -86,6 +86,9 @@ export const globalStyles = {
         fontFamily: "DM Sans",
         letterSpacing: "-0.5px",
       },
+      heading: {
+        fontFamily: "DM Sans",
+      },
       input: {
         color: "gray.700",
       },

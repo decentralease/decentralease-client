@@ -4,6 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import theme from "../theme/theme";
 
 import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
+import Layout from '../layouts';
 
 const MyApp = ({ Component, pageProps }) => {
   return (
@@ -13,7 +14,9 @@ const MyApp = ({ Component, pageProps }) => {
       <ThirdwebProvider
         desiredChainId={ChainId.Mumbai}
       >
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </ThirdwebProvider>
     </ChakraProvider>
   )

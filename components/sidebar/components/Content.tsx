@@ -25,7 +25,7 @@ function SidebarContent(props) {
           ps='20px' 
           pe={{ md: "16px", "2xl": "1px" }}
         >
-          <Links routes={routes} />
+          <Links />
         </Box>
       </Stack>
     </Flex>
