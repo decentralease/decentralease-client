@@ -14,13 +14,15 @@ const tokensData : Token[] = [
         contractAddress: '0x0',
         tokenId: '0',
         image: '/collection_filler.png',
-        rate: 7
+        rate: 7,
+        name: 'Decentraland #1'
     },
     {
         contractAddress: '0x0',
         tokenId: '1',
         image: '/collection_filler.png',
-        rate: 10
+        rate: 10,
+        name: 'Decentraland #2'
     }
 ]
 

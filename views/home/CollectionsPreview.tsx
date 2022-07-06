@@ -1,9 +1,14 @@
-import { SimpleGrid } from '@chakra-ui/react';
 import React from 'react'
-import Collection from '../../components/card/Collection';
-import useCollections from '../../hooks/useCollections'
 
-const Collections = () => {
+import {
+    SimpleGrid
+} from '@chakra-ui/react';
+
+import Collection from '../../components/card/Collection';
+
+import useCollections from '../../hooks/useCollections';
+
+const CollectionsPreview = () => {
 
     const collections = useCollections();
 
@@ -24,4 +29,4 @@ const Collections = () => {
     )
 }
 
-export default Collections
+export default CollectionsPreview

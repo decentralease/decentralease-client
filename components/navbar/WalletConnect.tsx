@@ -19,7 +19,8 @@ const WalletConnect = () => {
 
     const {
         address,
-        connect,
+        connectCoinbaseWallet,
+        connectMetamaskWallet,
         disconnect,
     } = useWallet();
 
@@ -72,24 +73,49 @@ const WalletConnect = () => {
                     </Text>
                 </Flex>
                 <Flex flexDirection='column' p='10px'>
-                    <MenuItem
-                        _hover={{ bg: "none" }}
-                        _focus={{ bg: "none" }}
-                        color={address ? 'red.400' : 'purple.400'}
-                        borderRadius='8px'
-                        px='14px'
-                        onClick={
-                            address
-                                ? () => disconnect()
-                                : () => connect()
-                        }
-                    >
-                        <Text fontSize='sm'>{
-                            address
-                                ? "Disconnect"
-                                : "Connect"
-                        }</Text>
-                    </MenuItem>
+                    {
+                        address ? (
+                            <MenuItem
+                                _hover={{ bg: "none" }}
+                                _focus={{ bg: "none" }}
+                                color={'red.400'}
+                                borderRadius='8px'
+                                px='14px'
+                                onClick={() => disconnect()}
+                            >
+                                <Text fontSize='sm'>
+                                    Disconnect
+                                </Text>
+                            </MenuItem>
+                        ) : (
+                            <>
+                                <MenuItem
+                                    _hover={{ bg: "none" }}
+                                    _focus={{ bg: "none" }}
+                                    color={'blue.400'}
+                                    borderRadius='8px'
+                                    px='14px'
+                                    onClick={() => connectCoinbaseWallet()}
+                                >
+                                    <Text fontSize='sm'>
+                                        Connect Coinbase Wallet
+                                    </Text>
+                                </MenuItem>
+                                <MenuItem
+                                    _hover={{ bg: "none" }}
+                                    _focus={{ bg: "none" }}
+                                    color={'orange.400'}
+                                    borderRadius='8px'
+                                    px='14px'
+                                    onClick={() => connectMetamaskWallet()}
+                                >
+                                    <Text fontSize='sm'>
+                                        Connect Metamask
+                                    </Text>
+                                </MenuItem>
+                            </>
+                        )
+                    }
                 </Flex>
             </MenuList>
         </Menu>

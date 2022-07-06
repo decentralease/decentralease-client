@@ -1,9 +1,6 @@
 // Chakra Imports
 import {
   Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Flex,
   Link,
   Text,
@@ -49,8 +46,8 @@ const AdminNavbar : React.FC<Props> = ({
   );
   let navbarBorder = "transparent";
   let secondaryMargin = "0px";
-  let paddingX = "15px";
-  let gap = "0px";
+  let paddingX = "1rem";
+  let gap = '1rem';
   const changeNavbar = () => {
     if (window.scrollY > 1) {
       setScrolled(true);
@@ -85,10 +82,7 @@ const AdminNavbar : React.FC<Props> = ({
       mt={secondaryMargin}
       pb='8px'
       right={{ base: "12px", md: "30px", lg: "30px", xl: "30px" }}
-      px={{
-        sm: paddingX,
-        md: "10px",
-      }}
+      px={paddingX}
       ps={{
         xl: "12px",
       }}
@@ -109,7 +103,7 @@ const AdminNavbar : React.FC<Props> = ({
           md: "row",
         }}
         alignItems={{ md: "center" }}
-        mb={gap}
+        gap={gap}
       >
         <Box 
           mb={{ sm: "8px", md: "0px" }}

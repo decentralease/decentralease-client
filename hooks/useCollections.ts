@@ -18,7 +18,7 @@ const collectionsData : Collection[] = [
     {
         contractAddress: '0x0',
         title: 'DeRace',
-        description: 'DeRace is a decentralized virtual world where breed and race digital horses.',
+        description: 'DeRace is a decentralized virtual world where users can breed and race digital horses.',
         image: '/collection_filler.png'
     }
 ];

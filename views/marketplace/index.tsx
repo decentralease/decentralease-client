@@ -11,6 +11,7 @@ const Marketplace : React.FC = () => {
     <Box
       display="flex"
       flexDirection="column"
+      alignItems="center"
       gap={8}
     >
         <Heading>Explore Collections</Heading>

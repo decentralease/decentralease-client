@@ -10,4 +10,5 @@ export interface Token {
     tokenId: string;
     image: string;
     rate: number;
+    name: string;
 }

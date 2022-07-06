@@ -1,15 +1,13 @@
 // Chakra imports
 import {
-  AvatarGroup,
-  Avatar,
   Box,
   Button,
   Flex,
-  Icon,
   Image,
   Link,
   Text,
   useColorModeValue,
+  VStack,
 } from "@chakra-ui/react";
 // Custom components
 import Card from "./Card";
@@ -28,16 +26,17 @@ const NFT : React.FC<Props> = ({ token, collectionName }) => {
   const textColorBid = useColorModeValue("brand.500", "white");
   return (
     <Card p='20px'>
-      <Flex direction={{ base: "column" }} justify='center'>
-        <Box mb={{ base: "20px", "2xl": "20px" }} position='relative'>
-          <Image
-            alt="NFT image"
-            src={token.image}
-            w={{ base: "100%", "3xl": "100%" }}
-            h={{ base: "100%", "3xl": "100%" }}
-            borderRadius='20px'
-          />
-        </Box>
+      <VStack 
+        spacing={4}
+        h='100%'
+      >
+        <Image
+          alt="NFT image"
+          src={token.image}
+          w={{ base: "100%", "3xl": "100%" }}
+          h={{ base: "100%", "3xl": "100%" }}
+          borderRadius='20px'
+        />
         <Flex flexDirection='column' justify='space-between' h='100%'>
           <Flex
             justify='space-between'
@@ -64,7 +63,7 @@ const NFT : React.FC<Props> = ({ token, collectionName }) => {
                 mb='5px'
                 fontWeight='bold'
                 me='14px'>
-                {collectionName} #{token.tokenId}
+                {token.name}
               </Text>
             </Flex>
           </Flex>
@@ -84,20 +83,24 @@ const NFT : React.FC<Props> = ({ token, collectionName }) => {
             <Text fontWeight='700' fontSize='sm' color={textColorBid}>
               Rate: ${token.rate} / hour
             </Text>
-            <Button
-              variant='darkBrand'
-              color='white'
-              fontSize='sm'
-              fontWeight='500'
-              borderRadius='70px'
-              px='24px'
-              py='5px'
+            <Link
+              href={`/collections/${token.contractAddress}/${token.tokenId}`}
             >
-              Rent
-            </Button>
+              <Button
+                variant='darkBrand'
+                color='white'
+                fontSize='sm'
+                fontWeight='500'
+                borderRadius='70px'
+                px='24px'
+                py='5px'
+              >
+                Rent
+              </Button>
+            </Link>
           </Flex>
         </Flex>
-      </Flex>
+      </VStack>
     </Card>
   );
 }

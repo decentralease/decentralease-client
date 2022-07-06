@@ -1,5 +1,5 @@
 // Chakra imports
-import { Portal, Box, useDisclosure } from "@chakra-ui/react";
+import { Portal, Box, useDisclosure, Container, Flex } from "@chakra-ui/react";
 // Layout components
 import Navbar from "../components/navbar/NavbarAdmin";
 import Sidebar from "../components/sidebar/Sidebar";
@@ -21,7 +21,7 @@ const Layout : React.FC<Props> = ({ children }) => {
   const [toggleSidebar, setToggleSidebar] = useState(false);
 
   const getActiveRoute = (routes) => {
-    let activeRoute = "Renting NFTs";
+    let activeRoute = "Rentify";
     for (let i = 0; i < routes.length; i++) {
       if(router.asPath === routes[i].path){
         activeRoute = routes[i].name;
@@ -103,25 +103,30 @@ const Layout : React.FC<Props> = ({ children }) => {
           transitionTimingFunction='linear, linear, ease'
         >
           <Portal>
-            <div>
-              <Navbar
-                onOpen={onOpen}
-                brandText={getActiveRoute(routes)}
-                secondary={getActiveNavbar(routes)}
-                message={getActiveNavbarText(routes)}
-                fixed={fixed}
-              />
-            </div>
+            <Navbar
+              onOpen={onOpen}
+              brandText={getActiveRoute(routes)}
+              secondary={getActiveNavbar(routes)}
+              message={getActiveNavbarText(routes)}
+              fixed={fixed}
+            />
           </Portal>
-          <Box
-            mx='auto'
-            px={{ base: "20px", md: "30px" }}
-            pe='20px'
-            minH='100vh'
-            pt={`150px`}
+          <Flex
+            direction='column'
+            alignItems='center'
+            w='100%'
           >
-            {children}
-          </Box>
+            <Container
+              px='2rem'
+              pt={`150px`}
+              maxWidth={{ base: "100%", "2xl": '75%' }}
+              display='flex'
+              flexDirection='column'
+              alignItems='center'
+            >
+              {children}
+            </Container>
+          </Flex>
         </Box>
       </SidebarContext.Provider>
     </Box>
