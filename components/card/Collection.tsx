@@ -23,8 +23,6 @@ const Collection : React.FC<Props> = ({ contractAddress }) => {
 
     const { collection, loading } = useCollection(contractAddress)
 
-    console.log(collection);
-
     const textColor = useColorModeValue("navy.700", "white");
 
     if(loading) {

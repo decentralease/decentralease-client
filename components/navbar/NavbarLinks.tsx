@@ -46,7 +46,8 @@ export default function HeaderLinks(props) {
       flexWrap={secondary ? { base: "wrap", md: "nowrap" } : "unset"}
       p='10px'
       borderRadius='30px'
-      boxShadow={shadow}>
+      boxShadow={shadow}
+    >
       <SearchBar
         mb={secondary ? { base: "10px", md: "unset" } : "unset"}
         me='10px'
@@ -59,7 +60,8 @@ export default function HeaderLinks(props) {
         ms='auto'
         p='6px'
         align='center'
-        me='6px'>
+        me='6px'
+      >
         <Flex
           align='center'
           justify='center'
@@ -67,19 +69,31 @@ export default function HeaderLinks(props) {
           h='29px'
           w='29px'
           borderRadius='30px'
-          me='7px'>
-          <Icon color={ethColor} w='9px' h='14px' as={FaEthereum} />
+          me='7px'
+        >
+          <Icon 
+            color={ethColor} 
+            w='9px' 
+            h='14px' 
+            as={FaEthereum} 
+          />
         </Flex>
         <Text
           w='max-content'
           color={ethColor}
           fontSize='sm'
           fontWeight='700'
-          me='6px'>
+          me='6px'
+        >
           1,924
-          <Text as='span' display={{ base: "none", md: "unset" }}>
-            {" "}
-            ETH
+          <Text 
+            as='span' 
+            display={{ 
+              base: "none", 
+              md: "unset" 
+            }}
+          >
+            {" "}ETH
           </Text>
         </Text>
       </Flex>

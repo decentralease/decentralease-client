@@ -23,7 +23,7 @@ const WalletView = () => {
         Your NFTs
       </Heading>
       <SimpleGrid
-        columns={{base: 2, md: 3, lg: 4}}
+        columns={{base: 2, md: 3, "2xl": 4}}
         spacing={4}
       >
         {
@@ -31,7 +31,6 @@ const WalletView = () => {
             <NFT 
               key={index}
               token={nft}
-              collectionName='portfolio'
             />
           ))
         }

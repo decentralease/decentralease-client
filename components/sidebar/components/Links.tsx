@@ -8,7 +8,11 @@ import { Box, Flex, HStack, Text, useColorModeValue } from "@chakra-ui/react";
 
 import routes from "../../../routes";
 
-const SidebarLinks : React.FC = () => {
+interface Props {
+  onClose: () => void;
+}
+
+const SidebarLinks : React.FC<Props> = ({ onClose }) => {
   //   Chakra color mode
   const router = useRouter();
   let activeColor = useColorModeValue("gray.700", "white");
@@ -20,7 +24,6 @@ const SidebarLinks : React.FC = () => {
   const activeRoute = (routeName) => {
     return router.asPath === routeName;
   };
-
   // this function creates the links from the secondary accordions (for example auth -> sign-in -> default)
   return <>
     {
@@ -32,6 +35,7 @@ const SidebarLinks : React.FC = () => {
           >
             <Box
               cursor={'pointer'}
+              onClick={() => onClose && onClose()}
             >
               <HStack
                 py='5px'
@@ -55,6 +59,7 @@ const SidebarLinks : React.FC = () => {
                   </Box>
                   <Text
                     me='auto'
+                    fontSize='lg'
                     color={
                       activeRoute(route.path.toLowerCase())
                         ? activeColor
@@ -64,7 +69,8 @@ const SidebarLinks : React.FC = () => {
                       activeRoute(route.path.toLowerCase())
                         ? "bold"
                         : "normal"
-                    }>
+                    }
+                  >
                     {route.name}
                   </Text>
                 </Flex>

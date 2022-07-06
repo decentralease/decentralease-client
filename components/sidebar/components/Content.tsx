@@ -4,10 +4,12 @@ import { Box, Flex, Stack } from "@chakra-ui/react";
 import Links from "./Links";
 import React from "react";
 
-// FUNCTIONS
+interface Props {
+  onClose?: () => void;
+}
 
-function SidebarContent(props) {
-  const { routes } = props;
+const SidebarContent : React.FC<Props> = ({ onClose }) => {
+
   // SIDEBAR
   return (
     <Flex 
@@ -25,7 +27,9 @@ function SidebarContent(props) {
           ps='20px' 
           pe={{ md: "16px", "2xl": "1px" }}
         >
-          <Links />
+          <Links
+            onClose={onClose}
+          />
         </Box>
       </Stack>
     </Flex>

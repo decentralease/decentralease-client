@@ -18,10 +18,9 @@ import { Token } from "../../hooks/types";
 
 interface Props {
   token: Token;
-  collectionName: string;
 }
 
-const NFT : React.FC<Props> = ({ token, collectionName }) => {
+const NFT : React.FC<Props> = ({ token }) => {
   const textColor = useColorModeValue("navy.700", "white");
   const textColorBid = useColorModeValue("brand.500", "white");
   return (

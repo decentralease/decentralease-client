@@ -8,7 +8,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
-import AdminNavbarLinks from "./NavbarLinksAdmin";
+import AdminNavbarLinks from "./NavbarLinks";
 
 interface Props {
   brandText: string;
@@ -47,7 +47,6 @@ const AdminNavbar : React.FC<Props> = ({
   );
   let navbarBorder = "transparent";
   let secondaryMargin = "0px";
-  let paddingX = "1rem";
   let gap = '1rem';
   const changeNavbar = () => {
     if (window.scrollY > 1) {
@@ -82,19 +81,13 @@ const AdminNavbar : React.FC<Props> = ({
       mx='auto'
       mt={secondaryMargin}
       pb='8px'
-      right={{ base: "12px", md: "30px", lg: "30px", xl: "30px" }}
-      px={paddingX}
-      ps={{
-        xl: "12px",
-      }}
+      right={0}
+      px={{base: "1rem", xl: "2rem"}}
       pt='8px'
       top={{ base: "12px", md: "16px", xl: "18px" }}
       w={{
-        base: "calc(100vw - 6%)",
-        md: "calc(100vw - 8%)",
-        lg: "calc(100vw - 6%)",
-        xl: "calc(100vw - 350px)",
-        "2xl": "calc(100vw - 365px)",
+        base: "100%",
+        xl:'calc(100% - 320px)'
       }}
     >
       <Flex
@@ -115,7 +108,6 @@ const AdminNavbar : React.FC<Props> = ({
             bg='inherit'
             borderRadius='inherit'
             fontWeight='bold'
-            fontSize='34px'
             _hover={{ color: { mainText } }}
             _active={{
               bg: "inherit",
@@ -126,7 +118,9 @@ const AdminNavbar : React.FC<Props> = ({
               boxShadow: "none",
             }}
           >
-            <Text>
+            <Text
+              fontSize='3xl'
+            >
               {brandText}
             </Text>
           </Link>

@@ -6,7 +6,8 @@ import {
     Heading,
     Image,
     VStack,
-    Container
+    Container,
+    Box
 } from '@chakra-ui/react';
 
 import useCollection from '../../hooks/useCollection';
@@ -39,20 +40,35 @@ const Collection : React.FC<Props> = ({ contractAddress }) => {
                 maxW="3xl"
                 py='1rem'
             >
-                <Image
-                    alt="Banner Image"
-                    src={collection.bannerUrl}
-                    maxHeight="200px"
-                    borderRadius={'2rem'}
-                />
+                <VStack
+                    position='relative'
+                    mb={'30px'}
+                >
+                    <Image
+                        alt="Banner Image"
+                        src={collection.bannerUrl}
+                        maxHeight="200px"
+                        borderRadius={'2rem'}
+                    />
+                    <Image
+                        alt="Logo Image"
+                        src={collection.thumbnailUrl}
+                        position='absolute'
+                        height={'60px'}
+                        bottom={'-30px'}
+                    />
+                </VStack>
                 <VStack
                     alignItems='center'
                 >
                     <Heading>{collection.name}</Heading>
-                    <Text>{collection.description}</Text>
+                    <Text
+                        textAlign='center'
+                    >
+                        {collection.description}
+                    </Text>
                 </VStack>
                 <NFTs
-                    collectionName={collection.name}
                     tokens={tokens}
                 />
             </Container>

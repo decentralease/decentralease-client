@@ -1,7 +1,7 @@
 // Chakra imports
 import { Portal, Box, useDisclosure, Container, Flex } from "@chakra-ui/react";
 // Layout components
-import Navbar from "../components/navbar/NavbarAdmin";
+import Navbar from "../components/navbar/Navbar";
 import Sidebar from "../components/sidebar/Sidebar";
 import { SidebarContext } from "../contexts/SidebarContext";
 import React, { useState, createRef } from "react";
@@ -119,7 +119,7 @@ const Layout : React.FC<Props> = ({ children }) => {
             <Container
               px='2rem'
               pt={`150px`}
-              maxWidth={{ base: "100%", "2xl": '75%' }}
+              maxWidth={{ base: "100%", "lg": '75%' }}
               display='flex'
               flexDirection='column'
               alignItems='center'

@@ -14,7 +14,7 @@ const collections = [
 const CollectionsPreview = () => {
     return (
         <SimpleGrid
-            columns={{ base: 2, lg: 3 }}
+            columns={2}
             spacing={8}
         >
             {

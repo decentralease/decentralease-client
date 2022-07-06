@@ -49,7 +49,7 @@ const Sidebar : React.FC<Props> = ({ routes }) => {
         overflowX='hidden'
         // boxShadow={shadow}
       >
-        <Content routes={routes} />
+        <Content />
       </Box>
     </Box>
   );
@@ -61,6 +61,8 @@ export const SidebarResponsive : React.FC<Props> = ({ routes }) => {
   let menuColor = useColorModeValue("gray.400", "white");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
+
+  console.log(onClose);
 
   return (
     <Flex display={{ sm: "flex", xl: "none" }} alignItems='center'>
@@ -79,16 +81,17 @@ export const SidebarResponsive : React.FC<Props> = ({ routes }) => {
         isOpen={isOpen}
         onClose={onClose}
         placement={document.documentElement.dir === "rtl" ? "right" : "left"}
-        finalFocusRef={btnRef}>
+        finalFocusRef={btnRef}
+      >
         <DrawerOverlay />
-        <DrawerContent w='285px' maxW='285px' bg={sidebarBackgroundColor}>
+        <DrawerContent w='290px' maxW='290px' bg={sidebarBackgroundColor}>
           <DrawerCloseButton
             zIndex='3'
             _focus={{ boxShadow: "none" }}
             _hover={{ boxShadow: "none" }}
           />
           <DrawerBody maxW='285px' px='0rem' pb='0'>
-            <Content routes={routes} />
+            <Content onClose={onClose} />
           </DrawerBody>
         </DrawerContent>
       </Drawer>

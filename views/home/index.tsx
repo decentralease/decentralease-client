@@ -13,11 +13,8 @@ import CollectionsPreview from './CollectionsPreview';
 
 const Home = () => {
   return (
-    <Container
-      display='flex'
-      flexDirection='column'
-      alignItems='center'
-      gap={8}
+    <VStack
+      spacing={8}
     >
       <VStack
         alignItems='center'
@@ -77,7 +74,7 @@ const Home = () => {
           </Link>
         </VStack>
       </Card>
-    </Container>
+    </VStack>
   )
 }
 
