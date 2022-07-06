@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {
-    Center,
+    Spinner,
     Text,
     Heading,
     Image,
@@ -18,34 +18,46 @@ interface Props {
 
 const Collection : React.FC<Props> = ({ contractAddress }) => {
 
-    const { collection, tokens } = useCollection(contractAddress);
+    const { collection, tokens, loading } = useCollection(contractAddress);
 
-    return (
-        <Container
-            gap={8}
-            display='flex'
-            flexDirection='column'
-            alignItems='center'
-            maxW="3xl"
-        >
-            <Image
-                alt="Banner Image"
-                src={'/nft_banner.png'}
-                width="100%"
-                borderRadius={'2rem'}
-            />
-            <VStack
-                alignItems='center'
-            >
-                <Heading>{collection.title}</Heading>
-                <Text>{collection.description}</Text>
+    if(loading) {
+        return (
+            <VStack>
+                <Spinner 
+                    size='xl'
+                />
+                <Text>Loading...</Text>
             </VStack>
-            <NFTs
-                collectionName={collection.title}
-                tokens={tokens}
-            />
-        </Container>
-    )
+        )
+    } else {
+        return (
+            <Container
+                gap={8}
+                display='flex'
+                flexDirection='column'
+                alignItems='center'
+                maxW="3xl"
+                py='1rem'
+            >
+                <Image
+                    alt="Banner Image"
+                    src={collection.bannerUrl}
+                    maxHeight="200px"
+                    borderRadius={'2rem'}
+                />
+                <VStack
+                    alignItems='center'
+                >
+                    <Heading>{collection.name}</Heading>
+                    <Text>{collection.description}</Text>
+                </VStack>
+                <NFTs
+                    collectionName={collection.name}
+                    tokens={tokens}
+                />
+            </Container>
+        )
+    }
 }
 
 export default Collection

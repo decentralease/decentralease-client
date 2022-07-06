@@ -16,7 +16,7 @@ const usePortfolio = () => {
                 "method": "GET",
                 "headers": {
                     "Content-Type": "application/json",
-                    "Authorization": "9c3cb834-b8f6-488c-bdc8-c5a02d1b687c"
+                    "Authorization": process.env.NEXT_PUBLIC_NFTPORT_API_KEY
                 }
             })
                 .then(response => response.json())

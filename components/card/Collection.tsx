@@ -13,68 +13,79 @@ import {
 import Card from "./Card";
 // Assets
 import React from "react";
-import { Collection } from "../../hooks/types";
+import useCollection from "../../hooks/useCollection";
 
 interface Props {
-    collection: Collection
+    contractAddress: string
 }
   
-const Collection : React.FC<Props> = ({ collection }) => {
+const Collection : React.FC<Props> = ({ contractAddress }) => {
+
+    const { collection, loading } = useCollection(contractAddress)
+
+    console.log(collection);
+
     const textColor = useColorModeValue("navy.700", "white");
-    return (
-      <Card 
-        p='1rem'
-        h='100%'
-      >
-        <VStack
-          spacing={4}
+
+    if(loading) {
+      return null;
+    } else {
+      return (
+        <Card 
+          p='1rem'
           h='100%'
         >
-          <Image
-            alt="NFT image"
-            src={collection.image}
-            w='100%'
-            borderRadius='20px'
-          />
           <VStack
-            alignItems='flex-start'
+            spacing={4}
+            h='100%'
           >
-            <Text
-              color={textColor}
-              fontWeight='bold'
-              fontSize='xl'
+            <Image
+              alt="NFT image"
+              src={collection.bannerUrl}
+              w='100%'
+              h='150px'
+              borderRadius='20px'
+            />
+            <VStack
+              alignItems='flex-start'
             >
-              {collection.title}
-            </Text>
-            <Text
-              color='secondaryGray.600'
-              fontWeight='400'
-            >
-              {collection.description}
-            </Text>
-          </VStack>
-          <Flex
-            direction='column'
-            flex={1}
-            justify='flex-end'
-          >
-            <Link
-              href={`collections/${collection.contractAddress}`}
-            >
-              <Button
-                variant='darkBrand'
-                color='white'
-                fontSize='sm'
-                h="40px"
-                borderRadius='20px'
+              <Text
+                color={textColor}
+                fontWeight='bold'
+                fontSize='xl'
               >
-                View
-              </Button>
-            </Link>
-          </Flex>
-        </VStack>
-      </Card>
-    );
+                {collection.name}
+              </Text>
+              <Text
+                color='secondaryGray.600'
+                fontWeight='400'
+              >
+                {collection.description.slice(0, 100)}...
+              </Text>
+            </VStack>
+            <Flex
+              direction='column'
+              flex={1}
+              justify='flex-end'
+            >
+              <Link
+                href={`collections/${collection.contractAddress}`}
+              >
+                <Button
+                  variant='darkBrand'
+                  color='white'
+                  fontSize='sm'
+                  h="40px"
+                  borderRadius='20px'
+                >
+                  View
+                </Button>
+              </Link>
+            </Flex>
+          </VStack>
+        </Card>
+      );
+    }
   }
   
 export default Collection;

@@ -2,6 +2,7 @@
 import {
   Box,
   Flex,
+  HStack,
   Link,
   Text,
   useColorModeValue,
@@ -99,14 +100,14 @@ const AdminNavbar : React.FC<Props> = ({
       <Flex
         w='100%'
         flexDirection={{
-          sm: "column",
+          xs: "column",
           md: "row",
         }}
-        alignItems={{ md: "center" }}
+        alignItems={{ xs: "center" }}
         gap={gap}
       >
-        <Box 
-          mb={{ sm: "8px", md: "0px" }}
+        <HStack 
+          mb={{ xs: "8px", sm: "0px" }}
         >
           <Link
             color={mainText}
@@ -129,7 +130,7 @@ const AdminNavbar : React.FC<Props> = ({
               {brandText}
             </Text>
           </Link>
-        </Box>
+        </HStack>
         <Box ms='auto' w={{ sm: "100%", md: "unset" }}>
           <AdminNavbarLinks
             onOpen={onOpen}

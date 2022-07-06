@@ -7,11 +7,11 @@ import Collection from '../../../views/marketplace/Collection';
 const CollectionPage = () => {
 
     const { query } = useRouter();
-    const { pid } = query;
+    const { contractAddress } = query;
 
     return (
         <Collection 
-            contractAddress={pid as string}
+            contractAddress={contractAddress as string}
         />
     )
 }

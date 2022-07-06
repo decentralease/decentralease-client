@@ -43,7 +43,7 @@ const Token : React.FC<Props> = ({ contractAddress, tokenId }) => {
                 gap={4}
             >
                 <SimpleGrid
-                    columns={2}
+                    columns={{ base: 1, md: 2 }}
                     spacing={4}
                     w={'100%'}
                 >
@@ -60,7 +60,7 @@ const Token : React.FC<Props> = ({ contractAddress, tokenId }) => {
                             borderRadius='20px'
                         />
                         <Heading>
-                            Token #{token.tokenId}
+                            {token.name}
                         </Heading>
                     </Card>
                     <Card

@@ -2,13 +2,6 @@ import { useState, useEffect } from 'react';
 
 import { Collection, Token } from "./types";
 
-const collectionData : Collection = {
-    contractAddress: '0x0',
-    title: 'Decentraland',
-    description: 'Decentraland is a decentralized virtual world where you can build, sell, and buy metaverse items.',
-    image: '/collection_filler.png'
-}
-
 const tokensData : Token[] = [
     {
         contractAddress: '0x0',
@@ -27,20 +20,40 @@ const tokensData : Token[] = [
 ]
 
 const useCollection = (contractAddress : string) => {
-    const [collection, setCollection] = useState<Collection>(collectionData);
+
+    const [collection, setCollection] = useState<Collection>(null);
     const [tokens, setTokens] = useState<Token[]>(tokensData);
     const [loading, setLoading] = useState(true);
     
     useEffect(() => {
         const fetchData = async () => {
-            setCollection(collectionData);
-            setTokens(tokensData);
-            setLoading(false);
+            const data = await fetch(`https://api.nftport.xyz/v0/nfts/${contractAddress}?chain=ethereum`, {
+                "method": "GET",
+                "headers": {
+                  "Content-Type": "application/json",
+                  "Authorization": process.env.NEXT_PUBLIC_NFTPORT_API_KEY
+                }
+              })
+              .then(response => response.json())
+              .catch(err => err);
+            if(data.contract){
+                setCollection(transformCollectionResponse({...data.contract, contractAddress}));
+                setTokens(tokensData);
+                setLoading(false);
+            }
         };
         fetchData();
-    }, []);
+    }, [contractAddress]);
     
     return { collection, tokens, loading };
 }
+
+const transformCollectionResponse = (collectionResponse : any) : Collection => ({
+    contractAddress: collectionResponse.contractAddress,
+    name: collectionResponse.name,
+    description: collectionResponse.metadata.description,
+    thumbnailUrl: collectionResponse.metadata.thumbnail_url,
+    bannerUrl: collectionResponse.metadata.banner_url
+})
 
 export default useCollection

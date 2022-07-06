@@ -1,8 +1,9 @@
 export interface Collection {
     contractAddress: string;
-    title: string;
+    name: string;
     description: string;
-    image: string;
+    thumbnailUrl: string;
+    bannerUrl: string;
 }
 
 export interface Token {
