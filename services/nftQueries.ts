@@ -47,7 +47,6 @@ const transformTokenResponse = (tokenResponse : any) : Token => ({
     contractAddress: tokenResponse.contract_address,
     tokenId: tokenResponse.token_id,
     image: getLink(tokenResponse.cached_file_url || tokenResponse.metadata.image),
-    rate: 1,
     name: (tokenResponse.name || tokenResponse.metadata.name),
 })
 
@@ -56,5 +55,4 @@ const transformCollectionResponse = (collectionResponse : any) : Collection => (
     name: collectionResponse.name,
     description: collectionResponse.metadata.description,
     thumbnailUrl: collectionResponse.metadata.thumbnail_url,
-    bannerUrl: collectionResponse.metadata.banner_url
 })

@@ -57,5 +57,6 @@ const NFT : React.FC<Props> = ({ token, actionButtons }) => {
 export { default as OwnedButtons } from "./OwnedButtons";
 export { default as StakedButtons } from './StakedButtons';
 export { default as ListedButtons } from './ListedButtons';
+export { default as ActiveButtons } from './ActiveButtons';
 
 export default NFT;

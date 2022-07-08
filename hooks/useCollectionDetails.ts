@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
-import { getCollectionDetails } from '../services/nftQueries';
 
 import { useContract } from '@thirdweb-dev/react';
 
-import { Collection, Token } from "./types";
+import { Collection } from "./types";
 
 const defaultCollection = {
     name: "Default Collection",
     description: "Lorem ipsum dolor",
-    bannerUrl: '/nft_banner.png',
     thumbnailUrl: '/collection_filler.png',
 }
 

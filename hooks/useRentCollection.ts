@@ -12,13 +12,12 @@ const useRentCollection = (contractAddress : string) => {
     const { contract: doNFTContract } = useContract(contractAddress);
 
     const [tokensForRent, setTokensForRent] = useState<Token[]>([]);
-    const [activeLendOrders, setActiveLendOrders] = useState<any[]>([]);
+    const [loading, setLoading ] = useState<boolean>(true);  
 
     useEffect(() => {
         const getRentCollection = async () => {
             const totalSupply = await doNFTContract.call("totalSupply");
             const tokensForRent : Token[] = [];
-            const activeLendOrders = [];
             await Promise.all(Array.from({length: totalSupply.toNumber()}, (x, i) => (i + 1)).map(async (tokenId) => {
                 const lendOrder = await marketContract.call('getLendOrder', contractAddress, tokenId);
                 if(moment(lendOrder.maxEndTime.toNumber() * 1000).isAfter(moment())){
@@ -28,13 +27,11 @@ const useRentCollection = (contractAddress : string) => {
                         name: tokenMetadata.name,
                         contractAddress,
                         image: tokenMetadata.image,
-                        rate: 1
                     })
-                    // activeLendOrders.push(lendOrder);
                 }
             }));
             setTokensForRent(tokensForRent);
-            // setActiveLendOrders(activeLendOrders);
+            setLoading(false);
         }
         if (doNFTContract && marketContract) {
             getRentCollection();
@@ -43,7 +40,7 @@ const useRentCollection = (contractAddress : string) => {
 
     return {
         tokensForRent,
-        activeLendOrders
+        loading,
     }
 
 }

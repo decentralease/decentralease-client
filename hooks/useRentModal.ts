@@ -29,8 +29,11 @@ const useRentModal = (contractAddress : string, tokenId : number) => {
             contractAddress,
             tokenId,
             1,
-            duration,
+            duration * 86400,
             address,
+            {
+                value: paymentNormal.pricePerDay * duration,
+            }
         );
     }
 

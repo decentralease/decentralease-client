@@ -146,6 +146,7 @@ const RentModal : React.FC<Props> = ({ isOpen, onClose, token }) => {
                             <Button
                                 variant='solid'
                                 colorScheme='brand'
+                                onClick={() => rent()}
                             >
                                 Rent
                             </Button>

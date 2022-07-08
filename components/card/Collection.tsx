@@ -43,7 +43,7 @@ const Collection : React.FC<Props> = ({ contractAddress, route, chain = 'ethereu
           >
             <Image
               alt="NFT image"
-              src={collection.bannerUrl}
+              src={collection.thumbnailUrl}
               w='100%'
               h='150px'
               borderRadius='20px'
