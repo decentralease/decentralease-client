@@ -12,7 +12,6 @@ const useApprovalForAll = (contractAddress: string, operator: string) => {
 
     useEffect(() => {
         const isApprovedForAll = async () => {
-            console.log('aaa');
             setIsApprovedForAll(await contract.call("isApprovedForAll", address, operator));
             setApprovedLoading(false);
         }

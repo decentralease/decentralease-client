@@ -14,7 +14,9 @@ const Marketplace : React.FC = () => {
       alignItems="center"
       gap={8}
     >
-        <Heading>Explore Collections</Heading>
+        <Heading>
+          Collections
+        </Heading>
         <Collections />
     </Box>
   )

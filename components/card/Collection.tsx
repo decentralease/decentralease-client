@@ -27,8 +27,6 @@ const Collection : React.FC<Props> = ({ contractAddress, route, chain = 'ethereu
 
     const textColor = useColorModeValue("navy.700", "white");
 
-    console.log(contractAddress);
-
     if(loading || !collection) {
       return null;
     } else {
@@ -42,25 +40,24 @@ const Collection : React.FC<Props> = ({ contractAddress, route, chain = 'ethereu
             h='100%'
           >
             <Image
-              alt="NFT image"
+              alt="Collecion Image"
               src={collection.thumbnailUrl}
-              w='100%'
               h='150px'
               borderRadius='20px'
             />
-            <VStack
-              alignItems='flex-start'
-            >
+            <VStack>
               <Text
                 color={textColor}
                 fontWeight='bold'
                 fontSize='xl'
+
               >
                 {collection.name}
               </Text>
               <Text
                 color='secondaryGray.600'
                 fontWeight='400'
+                textAlign='center'
               >
                 {collection.description && collection.description.slice(0, 100)}...
               </Text>

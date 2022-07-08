@@ -29,7 +29,7 @@ const Collection : React.FC<Props> = ({ contractAddress }) => {
             display='flex'
             flexDirection='column'
             alignItems='center'
-            maxW="3xl"
+            maxW="5xl"
             py='1rem'
         >
             <CollectionDetails 

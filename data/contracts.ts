@@ -8,7 +8,11 @@ const contracts = [
     //     chain: 'ethereum',
     // },
     {
-        contractAddress: process.env.NEXT_PUBLIC_DO_NFT_ADDRESS,
+        contractAddress: "0xa7c0cA38C45be482bC47B2e9f7FC98386D5aE7C5",
+        chain: 'mumbai',
+    },
+    {
+        contractAddress: "0x9AcdcD8DcAcD8B2d619ABF5177B34d76daD7BC46",
         chain: 'mumbai',
     }
 ]

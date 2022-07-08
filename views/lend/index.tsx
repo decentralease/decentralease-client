@@ -11,9 +11,7 @@ const LendView = () => {
     <VStack
         spacing={8}
     >
-        <Heading
-            size='lg'
-        >
+        <Heading>
             Collections
         </Heading>
         <Collections />

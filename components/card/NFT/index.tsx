@@ -18,6 +18,7 @@ interface Props {
 }
 
 const NFT : React.FC<Props> = ({ token, actionButtons }) => {
+
   const textColor = useColorModeValue("navy.700", "white");
   return (
     <Card p='20px'>

@@ -30,11 +30,8 @@ const use721List = () => {
                     gasLimit: 1000000
                 }
             )
-            console.log(data);
         }
-        catch (error) {
-            console.log(error);
-        }
+        catch (error) {}
     }
     
     
