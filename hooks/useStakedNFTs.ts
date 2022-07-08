@@ -32,7 +32,6 @@ const useStakedNFTs = (contractAddress: string, chain = 'ethereum') => {
         }
     }, [address, doNFTContract, contractAddress]);
 
-    // todo: call createLendOrder on Market contract
     const createLendOrder = async (
         tokenId: number, 
         maxEndTime: moment.Moment, 

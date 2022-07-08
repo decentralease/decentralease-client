@@ -47,11 +47,7 @@ const RentModal : React.FC<Props> = ({ isOpen, onClose, token }) => {
         rent,
     } = useRentModal(token.contractAddress, token.tokenId);
 
-    console.log(rentDetails.maxEndTime)
-
-    console.log(moment.unix(rentDetails.maxEndTime).fromNow());
-
-    const maxDuration = moment.unix(rentDetails.maxEndTime).diff(moment(), 'minutes');
+    const maxDuration = moment.unix(rentDetails.maxEndTime).diff(moment(), 'days');
 
     return (
         <Modal 
@@ -103,7 +99,7 @@ const RentModal : React.FC<Props> = ({ isOpen, onClose, token }) => {
                                 w='100%'
                             >
                                 <Text>
-                                    Price: {rentDetails.price} / day
+                                    Price: {rentDetails.price} MATIC / day
                                 </Text>
                                 <Text>
                                     Max Duration: {maxDuration} days
@@ -145,7 +141,7 @@ const RentModal : React.FC<Props> = ({ isOpen, onClose, token }) => {
                                 </Flex>
                             </VStack>
                             <Text>
-                                You are renting this NFT for <span>{duration.toFixed(3)}</span> days for a total price of {(duration * rentDetails.price).toFixed(3)} ETH.
+                                You are renting this NFT for <span>{duration.toFixed(3)}</span> days for a total price of {(duration * rentDetails.price).toFixed(3)} MATIC.
                             </Text>
                             <Button
                                 variant='solid'

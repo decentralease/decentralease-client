@@ -7,12 +7,16 @@ import {
     Image,
     VStack,
     Container,
-    Box
+    SimpleGrid,
+    useDisclosure
 } from '@chakra-ui/react';
 
-import useCollection from '../../hooks/useCollection';
 import useCollectionDetails from '../../hooks/useCollectionDetails';
-import NFTs from './NFTs';
+
+import { default as NFT, ListedButtons } from '../../components/card/NFT';
+
+import useRentCollection from '../../hooks/useRentCollection';
+import RentModal from '../../components/modals/RentModal';
 
 interface Props {
     contractAddress: string;
@@ -21,7 +25,17 @@ interface Props {
 const Collection : React.FC<Props> = ({ contractAddress }) => {
 
     const { collection, loading } = useCollectionDetails(contractAddress);
-    const { tokens } = useCollection(contractAddress);
+
+    const { tokensForRent } = useRentCollection(contractAddress);
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const [selectedTokenIndex, setSelectedTokenIndex] = React.useState<number>(0);
+
+    const openModal = (index: number) => {
+        setSelectedTokenIndex(index);
+        onOpen();
+    }
 
     if(loading) {
         return (
@@ -34,46 +48,72 @@ const Collection : React.FC<Props> = ({ contractAddress }) => {
         )
     } else {
         return (
-            <Container
-                gap={8}
-                display='flex'
-                flexDirection='column'
-                alignItems='center'
-                maxW="3xl"
-                py='1rem'
-            >
-                <VStack
-                    position='relative'
-                    mb={'30px'}
-                >
-                    <Image
-                        alt="Banner Image"
-                        src={collection.bannerUrl}
-                        maxHeight="200px"
-                        borderRadius={'2rem'}
+            <>
+                {tokensForRent.length > 0 && (
+                    <RentModal 
+                        token={tokensForRent[selectedTokenIndex]}
+                        isOpen={isOpen}
+                        onClose={onClose}
                     />
-                    <Image
-                        alt="Logo Image"
-                        src={collection.thumbnailUrl}
-                        position='absolute'
-                        height={'60px'}
-                        bottom={'-30px'}
-                    />
-                </VStack>
-                <VStack
+                )}
+                <Container
+                    gap={8}
+                    display='flex'
+                    flexDirection='column'
                     alignItems='center'
+                    maxW="3xl"
+                    py='1rem'
                 >
-                    <Heading>{collection.name}</Heading>
-                    <Text
-                        textAlign='center'
+                    <VStack
+                        position='relative'
+                        mb={'30px'}
                     >
-                        {collection.description}
-                    </Text>
-                </VStack>
-                <NFTs
-                    tokens={tokens}
-                />
-            </Container>
+                        <Image
+                            alt="Banner Image"
+                            src={collection.bannerUrl}
+                            maxHeight="200px"
+                            borderRadius={'2rem'}
+                        />
+                        <Image
+                            alt="Logo Image"
+                            src={collection.thumbnailUrl}
+                            position='absolute'
+                            height={'60px'}
+                            width={'60px'}
+                            borderRadius={'50%'}
+                            bottom={'-30px'}
+                        />
+                    </VStack>
+                    <VStack
+                        alignItems='center'
+                    >
+                        <Heading>{collection.name}</Heading>
+                        <Text
+                            textAlign='center'
+                        >
+                            {collection.description}
+                        </Text>
+                    </VStack>
+                    <SimpleGrid
+                        columns={{ base: 1, lg: 2, "2xl": 3 }}
+                        spacing={4}
+                    >
+                        {
+                            tokensForRent.map((nft, index) => (
+                                <NFT 
+                                    key={`${nft.contractAddress} ${nft.tokenId}`}
+                                    token={nft}
+                                    actionButtons={
+                                        <ListedButtons
+                                            openModal={() => openModal(index)}
+                                        />
+                                    }
+                                />
+                            ))
+                        }
+                    </SimpleGrid>
+                </Container>
+            </>
         )
     }
 }
