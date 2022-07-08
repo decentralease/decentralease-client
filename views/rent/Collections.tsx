@@ -2,10 +2,7 @@ import { SimpleGrid } from '@chakra-ui/react';
 import React from 'react'
 import Collection from '../../components/card/Collection';
 
-const collections = [
-    "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d",
-    "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
-]
+import collections from '../../data/contracts';
 
 const Collections = () => {
 
@@ -15,10 +12,12 @@ const Collections = () => {
             spacing={8}
         >
             {
-                collections.map(contractAddress => (
+                collections.map(collection => (
                     <Collection
-                        key={contractAddress}
-                        contractAddress={contractAddress}
+                        key={collection.contractAddress}
+                        contractAddress={collection.contractAddress}
+                        chain={collection.chain}
+                        route={'rent'}
                     />
                 ))
             }

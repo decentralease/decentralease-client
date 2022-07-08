@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { 
     Text, 
     Heading,
-    VStack,
     SimpleGrid,
 } from '@chakra-ui/react'
 import {
@@ -15,21 +14,21 @@ import Card from '../../components/card/Card'
 
 const data = [
     {
-        heading: "Create from Scratch",
-        description: "Create a new ERC-4907 contract tailored to your game mechanics.",
-        href: "/create/new",
-        icon: <TbCode size={60} />,
+        heading: "List ERC-4907 Contract",
+        description: "List an ERC-4907 contract on the marketplace.",
+        href: "/list/4907",
+        icon: <TbFileCode size={60} />,
     },
     {
-        heading: "Wrap ERC-721 Contract",
-        description: "Wrap an existing ERC-721 contract to add ERC-4907 functionality.",
-        href: "/create/wrap",
-        icon: <TbFileCode size={60} />,
+        heading: "List ERC-721 Contract",
+        description: "Wrap and list an ERC-721 contract on the marketplace.",
+        href: "/list/721",
+        icon: <TbCode size={60} />,
     }
 ]
   
 
-const CreateView = () => {
+const ListView = () => {
   return (
     <Card
         borderRadius={"1rem"}
@@ -40,7 +39,7 @@ const CreateView = () => {
           textAlign='center'
           size='lg'
         >
-          New ERC-4907 Contract
+          List Contract on Marketplace
         </Heading>
         <SimpleGrid
           columns={2}
@@ -84,4 +83,4 @@ const CreateView = () => {
   )
 }
 
-export default CreateView
+export default ListView

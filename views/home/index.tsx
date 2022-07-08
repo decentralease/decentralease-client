@@ -66,10 +66,10 @@ const Home = () => {
           </VStack>
           <CollectionsPreview />
           <Link
-            href='/marketplace'
+            href='/rent'
           >
             <Button>
-              View Marketplace
+              View Rentals
             </Button>
           </Link>
         </VStack>

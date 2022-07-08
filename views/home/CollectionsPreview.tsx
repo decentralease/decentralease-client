@@ -22,6 +22,7 @@ const CollectionsPreview = () => {
                     <Collection
                         key={contractAddress}
                         contractAddress={contractAddress}
+                        route={'rent'}
                     />
                 ))
             }

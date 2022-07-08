@@ -11,14 +11,18 @@ import {
 
 import Card from '../../components/card/Card'
 
-import useWrapERC721 from '../../hooks/useWrapERC721';
 import Copyable from '../../components/utility/Copyable';
+import useDoNFTFactory from '../../hooks/use4907List';
 
 const WrapView = () => {
 
     const [contractAddress, setContractAddress] = useState<string>('');
 
-    const { wrap, wrappedContractAddress, error } = useWrapERC721();
+    const { 
+        deployDoNFT, 
+        newContractAddress, 
+        error 
+    } = useDoNFTFactory();
 
     return (
         <Card
@@ -30,7 +34,7 @@ const WrapView = () => {
                 <Heading
                     size='lg'
                 >
-                    Wrap ERC-721 Contract
+                    List ERC-4907 Contract
                 </Heading>
                 <Text>
                     ERC-4907 is an extension of ERC-721. 
@@ -46,22 +50,22 @@ const WrapView = () => {
                 <Button
                     variant='solid'
                     colorScheme='brand'
-                    onClick={() => wrap(contractAddress)}
+                    onClick={() => deployDoNFT(contractAddress)}
                     disabled={contractAddress.length === 0}
                 >
                     Wrap
                 </Button>
                 {
-                    error && (
+                   Boolean(error) && (
                         <Text
                             color='red.500'
                         >
-                            Error: {error}
+                            Error
                         </Text>
                     )
                 }
                 {
-                    wrappedContractAddress && (
+                    newContractAddress && (
                         <HStack
                             spacing={1}
                             alignItems='center'
@@ -73,8 +77,8 @@ const WrapView = () => {
                                 Contract Wrapped Successfully:
                             </Text>
                             <Copyable
-                                copyText={wrappedContractAddress}
-                                displayText={wrappedContractAddress}
+                                copyText={newContractAddress}
+                                displayText={newContractAddress}
                                 color='brand.500'
                             />
                         </HStack>

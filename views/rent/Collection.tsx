@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 
 import useCollection from '../../hooks/useCollection';
+import useCollectionDetails from '../../hooks/useCollectionDetails';
 import NFTs from './NFTs';
 
 interface Props {
@@ -19,7 +20,8 @@ interface Props {
 
 const Collection : React.FC<Props> = ({ contractAddress }) => {
 
-    const { collection, tokens, loading } = useCollection(contractAddress);
+    const { collection, loading } = useCollectionDetails(contractAddress);
+    const { tokens } = useCollection(contractAddress);
 
     if(loading) {
         return (

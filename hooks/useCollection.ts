@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getCollectionDetails } from '../services/nftQueries';
 
 import { Collection, Token } from "./types";
 
@@ -19,7 +20,14 @@ const tokensData : Token[] = [
     }
 ]
 
-const useCollection = (contractAddress : string) => {
+const defaultCollection = {
+    name: "Default Collection",
+    description: "Lorem ipsum dolor",
+    bannerUrl: '/nft_banner.png',
+    thumbnailUrl: '/collection_filler.png',
+}
+
+const useCollection = (contractAddress : string, chain = 'ethereum') => {
 
     const [collection, setCollection] = useState<Collection>(null);
     const [tokens, setTokens] = useState<Token[]>(tokensData);
@@ -27,33 +35,24 @@ const useCollection = (contractAddress : string) => {
     
     useEffect(() => {
         const fetchData = async () => {
-            const data = await fetch(`https://api.nftport.xyz/v0/nfts/${contractAddress}?chain=ethereum`, {
-                "method": "GET",
-                "headers": {
-                  "Content-Type": "application/json",
-                  "Authorization": process.env.NEXT_PUBLIC_NFTPORT_API_KEY
-                }
-              })
-              .then(response => response.json())
-              .catch(err => err);
-            if(data.contract){
-                setCollection(transformCollectionResponse({...data.contract, contractAddress}));
-                setTokens(tokensData);
-                setLoading(false);
+            const data = await getCollectionDetails(contractAddress, chain);
+            if(data){
+                setCollection(data);
+            } else {
+                setCollection({
+                    ...defaultCollection,
+                    contractAddress,
+                });
             }
-        };
-        fetchData();
-    }, [contractAddress]);
+            setTokens(tokensData);
+            setLoading(false);
+        }
+        if(contractAddress && !collection) {
+            fetchData();
+        }
+    }, [contractAddress, chain, collection]);
     
     return { collection, tokens, loading };
 }
-
-const transformCollectionResponse = (collectionResponse : any) : Collection => ({
-    contractAddress: collectionResponse.contractAddress,
-    name: collectionResponse.name,
-    description: collectionResponse.metadata.description,
-    thumbnailUrl: collectionResponse.metadata.thumbnail_url,
-    bannerUrl: collectionResponse.metadata.banner_url
-})
 
 export default useCollection

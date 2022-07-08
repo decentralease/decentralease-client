@@ -6,13 +6,13 @@ import {
   MdAttachMoney,
   MdAddBox,
   MdOutlineAccountBalanceWallet,
+  MdSell
 } from "react-icons/md";
 
 interface Route {
   name: string;
   path: string;
   icon: React.ReactNode;
-  component: React.FC;
 }
 
 const routes : Route[] = [
@@ -27,11 +27,10 @@ const routes : Route[] = [
         color='inherit' 
       />
     ),
-    component: null,
   },
   {
-    name: "Marketplace",
-    path: "/marketplace",
+    name: "Rent",
+    path: "/rent",
     icon: (
       <Icon
         as={MdAttachMoney}
@@ -40,10 +39,21 @@ const routes : Route[] = [
         color='inherit'
       />
     ),
-    component: null,
   },
   {
-    name: "Create",
+    name: "Lend",
+    path: "/lend",
+    icon: (
+      <Icon
+        as={MdSell}
+        width='20px'
+        height='20px'
+        color='inherit'
+      />
+    ),
+  },
+  {
+    name: "List",
     icon: (
       <Icon 
         as={MdAddBox}
@@ -52,8 +62,7 @@ const routes : Route[] = [
         color='inherit' 
       />
     ),
-    path: "/create",
-    component: null,
+    path: "/list",
   },
   {
     name: "Wallet",
@@ -66,7 +75,6 @@ const routes : Route[] = [
         color='inherit' 
       />
     ),
-    component: null,
   }
 ];
 

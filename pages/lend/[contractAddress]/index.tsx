@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useRouter } from 'next/router'
 
-import Collection from '../../../views/rent/Collection';
+import Collection from '../../../views/lend/Collection';
 
 const CollectionPage = () => {
 

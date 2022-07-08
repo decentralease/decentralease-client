@@ -13,19 +13,23 @@ import {
 import Card from "./Card";
 // Assets
 import React from "react";
-import useCollection from "../../hooks/useCollection";
+import useCollectionDetails from "../../hooks/useCollectionDetails";
 
 interface Props {
-    contractAddress: string
+    contractAddress: string;
+    chain? : string;
+    route: string;
 }
   
-const Collection : React.FC<Props> = ({ contractAddress }) => {
+const Collection : React.FC<Props> = ({ contractAddress, route, chain = 'ethereum' }) => {
 
-    const { collection, loading } = useCollection(contractAddress)
+    const { collection, loading } = useCollectionDetails(contractAddress, chain)
 
     const textColor = useColorModeValue("navy.700", "white");
 
-    if(loading) {
+    console.log(contractAddress);
+
+    if(loading || !collection) {
       return null;
     } else {
       return (
@@ -58,7 +62,7 @@ const Collection : React.FC<Props> = ({ contractAddress }) => {
                 color='secondaryGray.600'
                 fontWeight='400'
               >
-                {collection.description.slice(0, 100)}...
+                {collection.description && collection.description.slice(0, 100)}...
               </Text>
             </VStack>
             <Flex
@@ -67,7 +71,7 @@ const Collection : React.FC<Props> = ({ contractAddress }) => {
               justify='flex-end'
             >
               <Link
-                href={`collections/${collection.contractAddress}`}
+                href={`${route}/${collection.contractAddress}`}
               >
                 <Button
                   variant='darkBrand'

@@ -1,10 +1,10 @@
 import React from 'react'
 
-import WrapView from '../../views/create/wrap';
+import List4907 from '../../views/list/4907';
 
 const WrapPage : React.FC = () => {
   return (
-    <WrapView />
+    <List4907 />
   )
 }
 

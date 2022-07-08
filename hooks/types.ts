@@ -8,7 +8,7 @@ export interface Collection {
 
 export interface Token {
     contractAddress: string;
-    tokenId: string;
+    tokenId: number;
     image: string;
     rate: number;
     name: string;

@@ -62,8 +62,6 @@ export const SidebarResponsive : React.FC<Props> = ({ routes }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
 
-  console.log(onClose);
-
   return (
     <Flex display={{ sm: "flex", xl: "none" }} alignItems='center'>
       <Flex ref={btnRef} w='max-content' h='max-content' onClick={onOpen}>
