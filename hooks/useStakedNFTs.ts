@@ -5,6 +5,7 @@ import { useAddress, useContract } from "@thirdweb-dev/react";
 
 import { Token } from "./types";
 import moment from "moment";
+import { ethers } from "ethers";
 
 const useStakedNFTs = (contractAddress: string, chain = 'ethereum') => {
 
@@ -18,14 +19,20 @@ const useStakedNFTs = (contractAddress: string, chain = 'ethereum') => {
 
     useEffect(() => {
         const getStakedNFTs = async () => {
-            const stakedNFTs = await doNFTContract.nft.query.owned.all(address);
-            setStakedNFTs(stakedNFTs.map(nft => ({
-                name: nft.metadata.name,
-                contractAddress,
-                tokenId: nft.metadata.id.toNumber(),
-                image: nft.metadata.image,
-                rate: 0
-            })));
+            const stakedNFTs = [];
+            const ownedDoNfts = await doNFTContract.nft.query.owned.all(address);
+            await Promise.all(ownedDoNfts.map(async (ownedDoNft) => {
+                const isVNFT = await doNFTContract.call("isVNft", ownedDoNft.metadata.id.toNumber());
+                if (isVNFT) {
+                    stakedNFTs.push({
+                        name: ownedDoNft.metadata.name,
+                        contractAddress,
+                        tokenId: ownedDoNft.metadata.id.toNumber(),
+                        image: ownedDoNft.metadata.image,
+                    });
+                }
+            }))
+            setStakedNFTs(stakedNFTs);
         }
         if (doNFTContract && address) {
             getStakedNFTs();
@@ -44,7 +51,7 @@ const useStakedNFTs = (contractAddress: string, chain = 'ethereum') => {
             tokenId, 
             maxEndTime.unix(),
             minDuration,
-            pricePerDay,
+            ethers.utils.parseEther(pricePerDay.toString()),
             "0x0000000000000000000000000000000000000000"
         );
     }
@@ -60,6 +67,7 @@ const useStakedNFTs = (contractAddress: string, chain = 'ethereum') => {
     }
 
     return { 
+        walletConnected: Boolean(address),
         stakedNFTs,
         createLendOrder,
         redeemVNFT,

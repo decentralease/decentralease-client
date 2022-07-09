@@ -8,9 +8,10 @@ import {
     useDisclosure
 } from '@chakra-ui/react'
 
-import {ActiveButtons, default as NFT} from '../../../components/card/NFT';
+import {ActiveButtons, default as NFT} from '../../../../components/card/NFT';
 
-import useActiveRentals from '../../../hooks/useActiveRentals';
+import useActiveRentals from '../../../../hooks/useActiveRentals';
+import ActiveInfo from './ActiveInfo';
 
 interface Props {
     contractAddress: string;
@@ -20,7 +21,7 @@ const Active : React.FC<Props> = ({ contractAddress }) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const { activeRentals, loading } = useActiveRentals(contractAddress);
+    const { activeRentals, loading, walletConnected } = useActiveRentals(contractAddress);
 
     const [selectedTokenIndex, setSelectedTokenIndex] = React.useState<number>(0);
 
@@ -29,6 +30,16 @@ const Active : React.FC<Props> = ({ contractAddress }) => {
         onOpen();
     }
 
+
+    if(!walletConnected){
+        return (
+            <VStack>
+                <Text>
+                    Connect your Wallet
+                </Text>
+            </VStack>
+        );
+    }
     if(loading){
         return (
             <VStack>
@@ -48,17 +59,22 @@ const Active : React.FC<Props> = ({ contractAddress }) => {
             spacing={4}
         >
             <SimpleGrid
-                columns={{ base: 1, lg: 2, "2xl": 3 }}
+                columns={{ base: 1, lg: 2 }}
                 spacing={4}
             >
                 {
-                    activeRentals.map((nft, index) => (
+                    activeRentals.map((nft) => (
                         <NFT 
                             key={`${nft.contractAddress} ${nft.tokenId}`}
                             token={nft}
                             actionButtons={
                                 <ActiveButtons
                                     checkIn={() => {}}
+                                />
+                            }
+                            infoDisplay={
+                                <ActiveInfo
+                                    endTime={nft.endTime}
                                 />
                             }
                         />

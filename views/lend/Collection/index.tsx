@@ -35,7 +35,10 @@ const Collection : React.FC<Props> = ({ contractAddress }) => {
             <CollectionDetails 
                 contractAddress={contractAddress}
             />
-            <Tabs isFitted>
+            <Tabs 
+                isFitted
+                w={'100%'}
+            >
                 <TabList>
                     <Tab>Owned NFTs</Tab>
                     <Tab>Staked NFTs</Tab>

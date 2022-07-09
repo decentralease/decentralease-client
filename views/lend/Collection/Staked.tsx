@@ -20,6 +20,7 @@ interface Props {
 const Staked : React.FC<Props> = ({ contractAddress }) => {
 
     const {
+        walletConnected,
         stakedNFTs,
         createLendOrder,
         redeemVNFT
@@ -48,6 +49,15 @@ const Staked : React.FC<Props> = ({ contractAddress }) => {
     }
 
 
+    if(!walletConnected){
+        return (
+            <VStack>
+                <Text>
+                    Connect your Wallet
+                </Text>
+            </VStack>
+        );
+    }
     if(stakedNFTs.length === 0) {
         return (
             <VStack>
@@ -67,7 +77,7 @@ const Staked : React.FC<Props> = ({ contractAddress }) => {
                 spacing={4}
             >
                 <SimpleGrid
-                    columns={{ base: 1, lg: 2, "2xl": 3 }}
+                    columns={{ base: 1, lg: 2 }}
                     spacing={4}
                 >
                     {

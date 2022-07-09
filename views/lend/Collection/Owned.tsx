@@ -19,6 +19,7 @@ interface Props {
 const Owned : React.FC<Props> = ({ contractAddress }) => {
 
     const {
+        walletConnected,
         ownedNFTs,
         approved,
         loading,
@@ -27,6 +28,15 @@ const Owned : React.FC<Props> = ({ contractAddress }) => {
     } = useLendOwnedNFTs(contractAddress);
 
 
+    if(!walletConnected){
+        return (
+            <VStack>
+                <Text>
+                    Connect your Wallet
+                </Text>
+            </VStack>
+        );
+    }
     if(loading){
         return (
             <VStack>
@@ -57,7 +67,7 @@ const Owned : React.FC<Props> = ({ contractAddress }) => {
                 )
             }
             <SimpleGrid
-                columns={{ base: 1, lg: 2, "2xl": 3 }}
+                columns={{ base: 1, lg: 2 }}
                 spacing={4}
             >
                 {

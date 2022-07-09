@@ -87,7 +87,7 @@ const LendModal : React.FC<Props> = ({ isOpen, onClose, token, onLend }) => {
                                 value={minDuration}
                                 onChange={(_, val) => setMinDuration(val)}
                                 min={0}
-                                step={0.25}
+                                step={1}
                             >
                                 <NumberInputField />
                                 <NumberInputStepper>

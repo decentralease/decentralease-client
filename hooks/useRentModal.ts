@@ -5,34 +5,38 @@ import {
     useContractData,
     useAddress,
 } from "@thirdweb-dev/react";
+import { ethers } from "ethers";
 
 const useRentModal = (contractAddress : string, tokenId : number) => {
 
     const address = useAddress();
-    const { contract } = useContract(process.env.NEXT_PUBLIC_MARKET_ADDRESS);
+    const { contract: marketContract } = useContract(process.env.NEXT_PUBLIC_MARKET_ADDRESS);
+    const { contract: doNFTContract } = useContract(contractAddress);
     const { data: lendOrder } = useContractData(
-        contract,
+        marketContract,
         "getLendOrder",
         contractAddress,
         tokenId
     );
     const { data: paymentNormal } = useContractData(
-        contract,
+        marketContract,
         "getPaymentNormal",
-        process.env.NEXT_PUBLIC_DO_NFT_ADDRESS,
+        contractAddress,
         tokenId
     );
 
+
     const rent = async () => {
-        await contract.call(
-            "fulfillOrderNow",
-            contractAddress,
-            tokenId,
-            1,
-            duration * 86400,
+        const durationList = await doNFTContract.call("getDurationIdList", tokenId);
+        await marketContract.call(
+            "fulfillOrderNow", 
+            contractAddress, 
+            tokenId, 
+            durationList[0].toNumber(), 
+            Math.ceil(duration * 24 * 60 * 60), 
             address,
             {
-                value: paymentNormal.pricePerDay * duration,
+                value: paymentNormal.pricePerDay.mul(duration)
             }
         );
     }
@@ -40,7 +44,7 @@ const useRentModal = (contractAddress : string, tokenId : number) => {
     const [duration, setDuration] = useState(0);
 
     const rentDetails = (lendOrder && paymentNormal) ? {
-        price: paymentNormal.pricePerDay.toNumber(),
+        price: parseFloat(ethers.utils.formatEther(paymentNormal.pricePerDay.toString())),
         maxEndTime: lendOrder.maxEndTime.toNumber(), 
     } : {};
 

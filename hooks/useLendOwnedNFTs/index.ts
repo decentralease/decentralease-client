@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 
-import { useContract, useContractData } from "@thirdweb-dev/react";
+import { useAddress, useContract, useContractData } from "@thirdweb-dev/react";
 import useApprovalForAll from "./useApprovalForAll";
 import useOwnedNFTs from "./useOwnedNFTs";
 
 const useLendOwnedNFTs = (contractAddress: string, chain = 'ethereum') => {
+
+    const address = useAddress();
 
     // doNFT address
     const { contract: doNFTContract } = useContract(contractAddress);
@@ -24,7 +26,8 @@ const useLendOwnedNFTs = (contractAddress: string, chain = 'ethereum') => {
         setOwnedNFTs(ownedNFTs.filter(nft => nft.tokenId !== tokenId));
     }
 
-    return { 
+    return {
+        walletConnected: Boolean(address),
         ownedNFTs, 
         approved: isApprovedForAll,
         loading: approvedLoading,

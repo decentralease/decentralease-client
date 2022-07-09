@@ -2,17 +2,17 @@ import React from 'react'
 
 import { 
     VStack,
-    Button,
     SimpleGrid,
     Text,
     Spinner,
     useDisclosure
 } from '@chakra-ui/react'
 
-import {default as NFT, ListedButtons} from '../../../components/card/NFT';
-import RentModal from '../../../components/modals/RentModal';
+import {default as NFT, ListedButtons} from '../../../../components/card/NFT';
+import RentModal from '../../../../components/modals/RentModal';
 
-import useRentCollection from '../../../hooks/useRentCollection';
+import useRentCollection from '../../../../hooks/useRentCollection';
+import AvailableInfo from './AvailableInfo';
 
 interface Props {
     contractAddress: string;
@@ -60,7 +60,7 @@ const Available : React.FC<Props> = ({ contractAddress }) => {
                 spacing={4}
             >
                 <SimpleGrid
-                    columns={{ base: 1, lg: 2, "2xl": 3 }}
+                    columns={{ base: 1, lg: 2 }}
                     spacing={4}
                 >
                     {
@@ -71,6 +71,12 @@ const Available : React.FC<Props> = ({ contractAddress }) => {
                                 actionButtons={
                                     <ListedButtons
                                         openModal={() => openModal(index)}
+                                    />
+                                }
+                                infoDisplay={
+                                    <AvailableInfo
+                                        rate={nft.rate}
+                                        maxEndTime={nft.maxEndTime}
                                     />
                                 }
                             />

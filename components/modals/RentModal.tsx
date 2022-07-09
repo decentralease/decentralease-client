@@ -127,7 +127,7 @@ const RentModal : React.FC<Props> = ({ isOpen, onClose, token }) => {
                                     <Slider
                                         min={0}
                                         max={maxDuration}
-                                        step={0.001}
+                                        step={1}
                                         flex={1}
                                         focusThumbOnChange={false}
                                         value={duration}

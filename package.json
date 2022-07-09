@@ -13,6 +13,7 @@
     "@chakra-ui/react": "^2.2.1",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "@ethersproject/contracts": "^5.2.0",
     "@thirdweb-dev/react": "^2.4.7",
     "@thirdweb-dev/sdk": "^2.3.23",
     "clipboard-copy": "^4.0.1",

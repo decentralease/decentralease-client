@@ -15,9 +15,10 @@ import { Token } from "../../../hooks/types";
 interface Props {
   token: Token;
   actionButtons?: React.ReactNode;
+  infoDisplay?: React.ReactNode
 }
 
-const NFT : React.FC<Props> = ({ token, actionButtons }) => {
+const NFT : React.FC<Props> = ({ token, actionButtons, infoDisplay }) => {
 
   const textColor = useColorModeValue("navy.700", "white");
   return (
@@ -48,6 +49,7 @@ const NFT : React.FC<Props> = ({ token, actionButtons }) => {
           >
             {token.name}
           </Text>
+          {infoDisplay}
           {actionButtons}
         </VStack>
       </VStack>
