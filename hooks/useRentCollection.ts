@@ -23,6 +23,7 @@ const useRentCollection = (contractAddress : string) => {
 
     useEffect(() => {
         const getRentCollection = async () => {
+            console.log('getRentCollection');
             const totalSupply = await doNFTContract.call("totalSupply");
             const tokensForRent : TokenForRent[] = [];
             await Promise.all(Array.from({length: totalSupply.toNumber()}, (x, i) => (i + 1)).map(async (tokenId) => {
