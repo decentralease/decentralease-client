@@ -141,7 +141,7 @@ const RentModal : React.FC<Props> = ({ isOpen, onClose, token }) => {
                                 </Flex>
                             </VStack>
                             <Text>
-                                You are renting this NFT for <span>{duration.toFixed(3)}</span> days for a total price of {(duration * rentDetails.price).toFixed(3)} MATIC.
+                                You are renting this NFT for <span>{duration.toFixed(3)}</span> days for a total price of {(duration * parseFloat(rentDetails.price)).toFixed(3)} MATIC.
                             </Text>
                             <Button
                                 variant='solid'

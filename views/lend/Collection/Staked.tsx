@@ -22,7 +22,7 @@ const Staked : React.FC<Props> = ({ contractAddress }) => {
     const {
         walletConnected,
         stakedNFTs,
-        createLendOrder,
+        createSigma,
         redeemVNFT
     } = useStakedNFTs(contractAddress);
 
@@ -32,14 +32,14 @@ const Staked : React.FC<Props> = ({ contractAddress }) => {
 
     const onLend = (
         maxEndTime: moment.Moment,
-        minDuration: number,
-        pricePerDay: number
+        pricesPerDay: number[],
+        durations: number[]
     ) => {
-        createLendOrder(
+        createSigma(
             stakedNFTs[selectedTokenIndex].tokenId,
             maxEndTime,
-            minDuration,
-            pricePerDay
+            pricesPerDay,
+            durations
         )
     }
 

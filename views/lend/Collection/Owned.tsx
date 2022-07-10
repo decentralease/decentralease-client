@@ -27,7 +27,7 @@ const Owned : React.FC<Props> = ({ contractAddress }) => {
         loading,
         approveForAll,
         mintVNFT,
-        stakeAndList
+        stakeAndCreateSigma
     } = useLendOwnedNFTs(contractAddress);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -41,14 +41,14 @@ const Owned : React.FC<Props> = ({ contractAddress }) => {
 
     const onLend = (
         maxEndTime: moment.Moment,
-        minDuration: number,
-        pricePerDay: number
+        pricesPerDay: number[],
+        durations: number[]
     ) => {
-        stakeAndList(
+        stakeAndCreateSigma(
             ownedNFTs[selectedTokenIndex].tokenId,
             maxEndTime,
-            minDuration,
-            pricePerDay
+            pricesPerDay,
+            durations
         )
     }
 

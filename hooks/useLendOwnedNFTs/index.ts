@@ -44,6 +44,22 @@ const useLendOwnedNFTs = (contractAddress: string) => {
         )
     };
 
+    const stakeAndCreateSigma = async (
+        tokenId: number,
+        maxEndTime: moment.Moment,
+        prices: number[],
+        durations: number[]
+    ) => {
+        marketContract.call('mintAndCreateSigma',
+            contractAddress,
+            tokenId,
+            "0x0000000000000000000000000000000000000000",
+            prices.map(price => ethers.utils.parseEther(price.toString())),
+            durations.map(duration => Math.ceil(duration * 24 * 60 * 60)),
+            maxEndTime.unix()
+        )
+    }
+
     return {
         walletConnected: Boolean(address),
         ownedNFTs, 
@@ -51,7 +67,8 @@ const useLendOwnedNFTs = (contractAddress: string) => {
         loading: approvedLoading,
         approveForAll,
         mintVNFT,
-        stakeAndList
+        stakeAndList,
+        stakeAndCreateSigma
     }
 };
 

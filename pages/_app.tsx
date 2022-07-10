@@ -13,7 +13,6 @@ const MyApp = ({ Component, pageProps }) => {
     >
       <ThirdwebProvider
         desiredChainId={ChainId.Mumbai}
-        storageInterface={new IpfsStorage("https://ipfs.io/ipfs/")}
       >
         <Layout>
           <Component {...pageProps} />

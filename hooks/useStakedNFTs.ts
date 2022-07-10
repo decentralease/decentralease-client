@@ -66,8 +66,8 @@ const useStakedNFTs = (contractAddress: string, chain = 'ethereum') => {
             contractAddress,
             tokenId,
             "0x0000000000000000000000000000000000000000",
-            prices,
-            durations,
+            prices.map(price => ethers.utils.parseEther(price.toString())),
+            durations.map(duration => Math.ceil(duration * 24 * 60 * 60)),
             maxEndTime.unix()
         )
     }

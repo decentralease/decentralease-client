@@ -10,15 +10,13 @@ import {
 
 interface Props {
     maxEndTime: moment.Moment,
-    rate: number
 }
 
-const AvailableInfo : React.FC<Props> = ({ maxEndTime, rate }) => {
+const AvailableInfo : React.FC<Props> = ({ maxEndTime }) => {
     return (
         <VStack
             spacing={0}
         >
-            <Text>{rate} MATIC / day</Text>
             <Text>Available Until: {maxEndTime.format("M/D/YY h:mm A")}</Text>
         </VStack>
     )

@@ -18,13 +18,14 @@ const useRentModal = (contractAddress : string, tokenId : number) => {
         contractAddress,
         tokenId
     );
-    const { data: paymentNormal } = useContractData(
+    const { data: paymentSigma } = useContractData(
         marketContract,
-        "getPaymentNormal",
+        "getPaymentSigma",
         contractAddress,
         tokenId
     );
 
+    const [duration, setDuration] = useState(0);
 
     const rent = async () => {
         const durationList = await doNFTContract.call("getDurationIdList", tokenId);
@@ -36,15 +37,28 @@ const useRentModal = (contractAddress : string, tokenId : number) => {
             Math.ceil(duration * 24 * 60 * 60), 
             address,
             {
-                value: paymentNormal.pricePerDay.mul(duration)
+                value: ethers.utils.parseEther((parseFloat(getPrice()) * duration).toString())
             }
         );
     }
 
-    const [duration, setDuration] = useState(0);
+    if(paymentSigma){
+        console.log(paymentSigma.infos);
+    }
 
-    const rentDetails = (lendOrder && paymentNormal) ? {
-        price: parseFloat(ethers.utils.formatEther(paymentNormal.pricePerDay.toString())),
+    const getPrice = () => {
+        if(paymentSigma) {
+            for(let i = paymentSigma.infos.length - 1; i >= 0; i--) {
+                if((duration * 24 * 60 * 60) > paymentSigma.infos[i].minDuration.toNumber()) {
+                    return ethers.utils.formatEther(paymentSigma.infos[i].pricePerDay);
+                }
+            }
+        }
+        return "0";
+    }
+
+    const rentDetails = (lendOrder && paymentSigma) ? {
+        price: getPrice(),
         maxEndTime: lendOrder.maxEndTime.toNumber(), 
     } : {};
 

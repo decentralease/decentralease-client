@@ -7,13 +7,8 @@ import { Token } from './types';
 import { ethers } from 'ethers';
 
 interface TokenForRent extends Token {
-    rate: number,
     minDuration: number,
     maxEndTime: moment.Moment,
-    infos: {
-        minDuration: number,
-        pricePerDay: number,
-    }[],
 }
 
 const useRentCollection = (contractAddress : string) => {
@@ -27,27 +22,23 @@ const useRentCollection = (contractAddress : string) => {
 
     useEffect(() => {
         const getRentCollection = async () => {
-            console.log('getRentCollection');
             const totalSupply = await doNFTContract.call("totalSupply");
             const tokensForRent : TokenForRent[] = [];
             await Promise.all(Array.from({length: totalSupply.toNumber()}, (x, i) => (i + 1)).map(async (tokenId) => {
                 const lendOrder = await marketContract.call('getLendOrder', contractAddress, tokenId);
-                const maxEndTime = moment(lendOrder.maxEndTime.toNumber() * 1000)
+                const maxEndTime = moment(lendOrder.maxEndTime.toNumber() * 1000);
+                console.log(maxEndTime.format());
                 if(maxEndTime.isAfter(moment())){
                     const tokenMetadata = await doNFTContract.nft.getTokenMetadata(tokenId);
                     const firstDuration = await doNFTContract.call('getDurationByIndex', tokenMetadata.id.toNumber(), 0);
                     if(moment().isAfter(moment(firstDuration.start.toNumber() * 1000))) {
-                        const paymentNormal = await marketContract.call('getPaymentNormal', contractAddress, tokenMetadata.id.toNumber());
-                        const paymentSigma = await marketContract.call('getPaymentSigma', contractAddress, tokenMetadata.id.toNumber());
                         tokensForRent.push({
                             contractAddress,
                             tokenId: tokenMetadata.id.toNumber(),
                             name: tokenMetadata.name,
                             image: tokenMetadata.image,
                             maxEndTime,
-                            rate: parseFloat(ethers.utils.formatEther(paymentNormal.pricePerDay)),
                             minDuration: lendOrder.minDuration.toNumber(),
-                            infos: paymentSigma.infos
                         });
                     }
                 }

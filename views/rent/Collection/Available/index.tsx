@@ -75,7 +75,6 @@ const Available : React.FC<Props> = ({ contractAddress }) => {
                                 }
                                 infoDisplay={
                                     <AvailableInfo
-                                        rate={nft.rate}
                                         maxEndTime={nft.maxEndTime}
                                     />
                                 }

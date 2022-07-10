@@ -28,7 +28,7 @@ const Home = () => {
         <Heading
           size='md'
         >
-          Web3 Game Financialization, Reimagined
+          Powering the Next Generation of Digital Assets
         </Heading>
       </VStack>
       <Card
