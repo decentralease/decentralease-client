@@ -40,20 +40,36 @@ const useStakedNFTs = (contractAddress: string, chain = 'ethereum') => {
     }, [address, doNFTContract, contractAddress]);
 
     const createLendOrder = async (
-        tokenId: number, 
-        maxEndTime: moment.Moment, 
+        tokenId: number,
+        maxEndTime: moment.Moment,
         minDuration: number,
         pricePerDay: number,
     ) => {
         marketContract.call(
             'createLendOrder',
             contractAddress,
-            tokenId, 
+            tokenId,
             maxEndTime.unix(),
             minDuration,
             ethers.utils.parseEther(pricePerDay.toString()),
             "0x0000000000000000000000000000000000000000"
         );
+    }
+
+    const createSigma = async (
+        tokenId: number,
+        maxEndTime: moment.Moment,
+        prices: number[],
+        durations: number[]
+    ) => {
+        marketContract.call('createSigma',
+            contractAddress,
+            tokenId,
+            "0x0000000000000000000000000000000000000000",
+            prices,
+            durations,
+            maxEndTime.unix()
+        )
     }
 
     // todo: call redeem on Market contract
@@ -66,10 +82,11 @@ const useStakedNFTs = (contractAddress: string, chain = 'ethereum') => {
         )
     }
 
-    return { 
+    return {
         walletConnected: Boolean(address),
         stakedNFTs,
         createLendOrder,
+        createSigma,
         redeemVNFT,
     };
 }
