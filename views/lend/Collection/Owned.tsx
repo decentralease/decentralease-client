@@ -1,16 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { 
     VStack,
     Button,
     SimpleGrid,
     Text,
-    Spinner
+    Spinner,
+    useDisclosure
 } from '@chakra-ui/react'
 
 import {default as NFT, OwnedButtons} from '../../../components/card/NFT';
 
 import useLendOwnedNFTs from '../../../hooks/useLendOwnedNFTs';
+import LendModal from '../../../components/modals/LendModal';
 
 interface Props {
     contractAddress: string;
@@ -24,9 +26,31 @@ const Owned : React.FC<Props> = ({ contractAddress }) => {
         approved,
         loading,
         approveForAll,
-        mintVNFT
+        mintVNFT,
+        stakeAndList
     } = useLendOwnedNFTs(contractAddress);
 
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const [selectedTokenIndex, setSelectedTokenIndex] = useState<number>(0);
+
+    const openModal = (index: number) => {
+        onOpen();
+        setSelectedTokenIndex(index);
+    }
+
+    const onLend = (
+        maxEndTime: moment.Moment,
+        minDuration: number,
+        pricePerDay: number
+    ) => {
+        stakeAndList(
+            ownedNFTs[selectedTokenIndex].tokenId,
+            maxEndTime,
+            minDuration,
+            pricePerDay
+        )
+    }
 
     if(!walletConnected){
         return (
@@ -52,39 +76,48 @@ const Owned : React.FC<Props> = ({ contractAddress }) => {
         )
     }
     return (
-        <VStack
-            spacing={4}
-        >
-            {
-                !approved && (
-                    <Button
-                        colorScheme='brand'
-                        onClick={() => approveForAll()}
-                        variant='solid'
-                    >
-                        Approve for All
-                    </Button>
-                )
-            }
-            <SimpleGrid
-                columns={{ base: 1, lg: 2 }}
+        <>
+            <LendModal
+                isOpen={isOpen}
+                onClose={onClose}
+                token={ownedNFTs[selectedTokenIndex]}
+                onLend={onLend}
+            />
+            <VStack
                 spacing={4}
             >
                 {
-                    ownedNFTs.map(nft => (
-                        <NFT 
-                            key={`${nft.contractAddress} ${nft.tokenId}`}
-                            token={nft}
-                            actionButtons={
-                                <OwnedButtons
-                                    onStake={() => mintVNFT(nft.tokenId)}
-                                />
-                            }
-                        />
-                    ))
+                    !approved && (
+                        <Button
+                            colorScheme='brand'
+                            onClick={() => approveForAll()}
+                            variant='solid'
+                        >
+                            Approve for All
+                        </Button>
+                    )
                 }
-            </SimpleGrid>
-        </VStack>
+                <SimpleGrid
+                    columns={{ base: 1, lg: 2 }}
+                    spacing={4}
+                >
+                    {
+                        ownedNFTs.map((nft, index) => (
+                            <NFT 
+                                key={`${nft.contractAddress} ${nft.tokenId}`}
+                                token={nft}
+                                actionButtons={
+                                    <OwnedButtons
+                                        onStake={() => mintVNFT(nft.tokenId)}
+                                        openModal={() => openModal(index)}
+                                    />
+                                }
+                            />
+                        ))
+                    }
+                </SimpleGrid>
+            </VStack>
+        </>
     )
 }
 

@@ -7,9 +7,10 @@ import {
 
 interface Props {
     onStake: () => void;
+    openModal: () => void;
 }
 
-const OwnedButtons : React.FC<Props> = ({ onStake }) => {
+const OwnedButtons : React.FC<Props> = ({ onStake, openModal }) => {
 
     return (
         <HStack>
@@ -19,6 +20,13 @@ const OwnedButtons : React.FC<Props> = ({ onStake }) => {
                 onClick={onStake}
             >
                 Stake
+            </Button>
+            <Button
+                colorScheme='brand'
+                variant='solid'
+                onClick={openModal}
+            >
+                Stake and List
             </Button>
         </HStack>
     )

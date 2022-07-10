@@ -31,21 +31,6 @@ const Home = () => {
           Web3 Game Financialization, Reimagined
         </Heading>
       </VStack>
-      <Card>
-        <Heading
-          size='lg'
-          textAlign='center'
-        >
-          Thesis
-        </Heading>
-        <Text
-          textAlign='center'
-        >
-          Rentify redefines play-to-earn gaming by separating the financialization
-          of game assets from their in-game utility. We do this by introducing a user
-          role in addition to owner role which exists on the ERC-721 and ERC-1155 standards.
-        </Text>
-      </Card>
       <Card
         display='flex'
         flexDirection='column'
