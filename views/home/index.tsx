@@ -23,7 +23,7 @@ const Home = () => {
         <Heading
           color='brand.500'
         >
-          Welcome to Rentify
+          Welcome to Decentralease
         </Heading>
         <Heading
           size='md'

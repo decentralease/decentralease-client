@@ -21,7 +21,7 @@ const Layout : React.FC<Props> = ({ children }) => {
   const [toggleSidebar, setToggleSidebar] = useState(false);
 
   const getActiveRoute = (routes) => {
-    let activeRoute = "Rentify";
+    let activeRoute = "Decentralease";
     for (let i = 0; i < routes.length; i++) {
       if(router.asPath === routes[i].path){
         activeRoute = routes[i].name;
