@@ -39,12 +39,12 @@ const Owned : React.FC<Props> = ({ contractAddress }) => {
         setSelectedTokenIndex(index);
     }
 
-    const onLend = (
+    const onLend = async (
         maxEndTime: moment.Moment,
         pricesPerDay: number[],
         durations: number[]
     ) => {
-        stakeAndCreateSigma(
+        return stakeAndCreateSigma(
             ownedNFTs[selectedTokenIndex].tokenId,
             maxEndTime,
             pricesPerDay,

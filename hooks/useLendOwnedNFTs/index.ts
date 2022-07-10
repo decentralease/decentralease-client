@@ -33,7 +33,7 @@ const useLendOwnedNFTs = (contractAddress: string) => {
         minDuration: number,
         pricePerDay: number,
     ) => {
-        await marketContract.call(
+        return marketContract.call(
             "mintAndCreateLendOrder",
             contractAddress,
             tokenId,
@@ -50,7 +50,7 @@ const useLendOwnedNFTs = (contractAddress: string) => {
         prices: number[],
         durations: number[]
     ) => {
-        marketContract.call('mintAndCreateSigma',
+        return marketContract.call('mintAndCreateSigma',
             contractAddress,
             tokenId,
             "0x0000000000000000000000000000000000000000",

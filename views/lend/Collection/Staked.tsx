@@ -30,12 +30,12 @@ const Staked : React.FC<Props> = ({ contractAddress }) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const onLend = (
+    const onLend = async (
         maxEndTime: moment.Moment,
         pricesPerDay: number[],
         durations: number[]
     ) => {
-        createSigma(
+        return createSigma(
             stakedNFTs[selectedTokenIndex].tokenId,
             maxEndTime,
             pricesPerDay,
