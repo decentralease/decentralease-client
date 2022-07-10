@@ -9,7 +9,11 @@ import { ethers } from 'ethers';
 interface TokenForRent extends Token {
     rate: number,
     minDuration: number,
-    maxEndTime: moment.Moment
+    maxEndTime: moment.Moment,
+    infos: {
+        minDuration: number,
+        pricePerDay: number,
+    }[],
 }
 
 const useRentCollection = (contractAddress : string) => {
@@ -34,6 +38,7 @@ const useRentCollection = (contractAddress : string) => {
                     const firstDuration = await doNFTContract.call('getDurationByIndex', tokenMetadata.id.toNumber(), 0);
                     if(moment().isAfter(moment(firstDuration.start.toNumber() * 1000))) {
                         const paymentNormal = await marketContract.call('getPaymentNormal', contractAddress, tokenMetadata.id.toNumber());
+                        const paymentSigma = await marketContract.call('getPaymentSigma', contractAddress, tokenMetadata.id.toNumber());
                         tokensForRent.push({
                             contractAddress,
                             tokenId: tokenMetadata.id.toNumber(),
@@ -41,7 +46,8 @@ const useRentCollection = (contractAddress : string) => {
                             image: tokenMetadata.image,
                             maxEndTime,
                             rate: parseFloat(ethers.utils.formatEther(paymentNormal.pricePerDay)),
-                            minDuration: lendOrder.minDuration.toNumber()
+                            minDuration: lendOrder.minDuration.toNumber(),
+                            infos: paymentSigma.infos
                         });
                     }
                 }
