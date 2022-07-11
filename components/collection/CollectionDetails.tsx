@@ -40,6 +40,7 @@ const CollectionDetails : React.FC<Props> = ({ contractAddress }) => {
             isLoaded={!loading && Boolean(collection)}
             w={'100%'}
             minH={'150px'}
+            borderRadius={'20px'}
         >
             <VStack
                 spacing={8}

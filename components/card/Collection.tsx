@@ -32,6 +32,7 @@ const Collection : React.FC<Props> = ({ contractAddress, route, chain = 'ethereu
       <Skeleton 
         isLoaded={!loading && !!(collection)}
         w="100%"
+        borderRadius='20px'
       >
         <Card 
           p='1rem'
