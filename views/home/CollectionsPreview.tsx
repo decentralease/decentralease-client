@@ -13,6 +13,7 @@ const CollectionsPreview = () => {
         <SimpleGrid
             columns={{base: 1, lg: 2}}
             spacing={8}
+            w='100%'
         >
             {
                 collections.map(collection => (

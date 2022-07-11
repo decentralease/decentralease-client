@@ -1,9 +1,7 @@
 import React from 'react'
 
 import {
-    Container,
     Heading,
-    Text,
     VStack,
     Button,
     Link,
@@ -43,6 +41,7 @@ const Home = () => {
         display='flex'
         flexDirection='column'
         gap={4}
+        w="100%"
       >
         <VStack>
           <VStack>

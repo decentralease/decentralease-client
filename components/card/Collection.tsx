@@ -8,6 +8,7 @@ import {
     Text,
     useColorModeValue,
     VStack,
+    Skeleton
 } from "@chakra-ui/react";
 // Custom components
 import Card from "./Card";
@@ -27,10 +28,11 @@ const Collection : React.FC<Props> = ({ contractAddress, route, chain = 'ethereu
 
     const textColor = useColorModeValue("navy.700", "white");
 
-    if(loading || !collection) {
-      return null;
-    } else {
-      return (
+    return (
+      <Skeleton 
+        isLoaded={!loading && !!(collection)}
+        w="100%"
+      >
         <Card 
           p='1rem'
           h='100%'
@@ -41,7 +43,7 @@ const Collection : React.FC<Props> = ({ contractAddress, route, chain = 'ethereu
           >
             <Image
               alt="Collecion Image"
-              src={collection.thumbnailUrl}
+              src={collection && collection.thumbnailUrl}
               h='150px'
               borderRadius='20px'
             />
@@ -52,14 +54,14 @@ const Collection : React.FC<Props> = ({ contractAddress, route, chain = 'ethereu
                 fontSize='xl'
                 textAlign='center'
               >
-                {collection.name}
+                {collection && collection.name}
               </Text>
               <Text
                 color='secondaryGray.600'
                 fontWeight='400'
                 textAlign='center'
               >
-                {collection.description && collection.description.slice(0, 100)}...
+                {collection && collection.description.slice(0, 100)}...
               </Text>
             </VStack>
             <Flex
@@ -68,7 +70,7 @@ const Collection : React.FC<Props> = ({ contractAddress, route, chain = 'ethereu
               justify='flex-end'
             >
               <Link
-                href={`${route}/${collection.contractAddress}`}
+                href={`${route}/${collection && collection.contractAddress}`}
               >
                 <Button
                   variant='darkBrand'
@@ -83,8 +85,8 @@ const Collection : React.FC<Props> = ({ contractAddress, route, chain = 'ethereu
             </Flex>
           </VStack>
         </Card>
-      );
-    }
+      </Skeleton>
+    );
   }
   
 export default Collection;
