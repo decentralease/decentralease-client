@@ -3,7 +3,7 @@ export const globalStyles = {
   colors: {
     brand: {
       100: "#E9E3FF",
-      200: "#422AFB",
+      200: "#6753fc",
       300: "#422AFB",
       400: "#7551FF",
       500: "#422AFB",
@@ -14,7 +14,7 @@ export const globalStyles = {
     },
     brandScheme: {
       100: "#E9E3FF",
-      200: "#7551FF",
+      200: "#6753fc",
       300: "#7551FF",
       400: "#7551FF",
       500: "#422AFB",

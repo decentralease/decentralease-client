@@ -35,7 +35,7 @@ const Sidebar : React.FC<Props> = ({ routes }) => {
   // SIDEBAR
   return (
     <Box 
-      display={{ sm: "none", xl: "block" }} 
+      display={{ base: "none", xl: "block" }} 
       position='fixed' 
       left='0'
       minH='100%'
@@ -63,7 +63,7 @@ export const SidebarResponsive : React.FC<Props> = ({ routes }) => {
   const btnRef = React.useRef();
 
   return (
-    <Flex display={{ sm: "flex", xl: "none" }} alignItems='center'>
+    <Flex display={{ base: "flex", xl: "none" }} alignItems='center'>
       <Flex ref={btnRef} w='max-content' h='max-content' onClick={onOpen}>
         <Icon
           as={IoMenuOutline}

@@ -45,7 +45,7 @@ const useActiveRentals = (contractAddress : string) => {
             setActiveRentals(activeRentals);
             setLoading(false);
         }
-        if(doNFTContract){
+        if(doNFTContract && address){
             getActiveRentals();
         }
     }, [doNFTContract, address, contractAddress]);

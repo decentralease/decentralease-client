@@ -92,16 +92,12 @@ const AdminNavbar : React.FC<Props> = ({
     >
       <Flex
         w='100%'
-        flexDirection={{
-          xs: "column",
-          md: "row",
-        }}
-        alignItems={{ xs: "center" }}
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="space-between"
         gap={gap}
       >
-        <HStack 
-          mb={{ xs: "8px", sm: "0px" }}
-        >
+        <HStack>
           <Link
             color={mainText}
             href='#'
@@ -119,13 +115,13 @@ const AdminNavbar : React.FC<Props> = ({
             }}
           >
             <Text
-              fontSize='3xl'
+              fontSize={{base: 'lg', sm: '2xl', xl: '2xl'}}
             >
               {brandText}
             </Text>
           </Link>
         </HStack>
-        <Box ms='auto' w={{ sm: "100%", md: "unset" }}>
+        <Box ms='auto'>
           <AdminNavbarLinks
             onOpen={onOpen}
             secondary={secondary}

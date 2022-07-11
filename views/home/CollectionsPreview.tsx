@@ -11,7 +11,7 @@ import collections from '../../data/contracts';
 const CollectionsPreview = () => {
     return (
         <SimpleGrid
-            columns={2}
+            columns={{base: 1, lg: 2}}
             spacing={8}
         >
             {

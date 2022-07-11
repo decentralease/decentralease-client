@@ -50,7 +50,7 @@ const Collection : React.FC<Props> = ({ contractAddress, route, chain = 'ethereu
                 color={textColor}
                 fontWeight='bold'
                 fontSize='xl'
-
+                textAlign='center'
               >
                 {collection.name}
               </Text>

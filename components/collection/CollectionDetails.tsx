@@ -6,6 +6,7 @@ import {
     Heading,
     Text,
     Spinner,
+    Skeleton,
 } from '@chakra-ui/react';
 
 import useCollectionDetails from '../../hooks/useCollectionDetails';
@@ -27,7 +28,12 @@ const CollectionDetails : React.FC<Props> = ({ contractAddress }) => {
         </VStack>
     }
     if(!collection) {
-        return null;
+        return (
+            <Skeleton 
+                height='100px'
+                startColor='gray.400'
+            />
+        );
     }
     return (
         <VStack
@@ -44,7 +50,11 @@ const CollectionDetails : React.FC<Props> = ({ contractAddress }) => {
             <VStack
                 alignItems='center'
             >
-                <Heading>{collection.name}</Heading>
+                <Heading
+                    textAlign='center'
+                >
+                    {collection.name}
+                </Heading>
                 <Text
                     textAlign='center'
                 >

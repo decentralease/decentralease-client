@@ -63,19 +63,19 @@ const routes : Route[] = [
       />
     ),
     path: "/list",
-  },
-  {
-    name: "Wallet",
-    path: "/wallet",
-    icon: (
-      <Icon 
-        as={MdOutlineAccountBalanceWallet} 
-        width='20px' 
-        height='20px' 
-        color='inherit' 
-      />
-    ),
   }
+  // {
+  //   name: "Wallet",
+  //   path: "/wallet",
+  //   icon: (
+  //     <Icon 
+  //       as={MdOutlineAccountBalanceWallet} 
+  //       width='20px' 
+  //       height='20px' 
+  //       color='inherit' 
+  //     />
+  //   ),
+  // }
 ];
 
 export default routes;

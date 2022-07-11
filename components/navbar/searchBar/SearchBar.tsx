@@ -16,7 +16,11 @@ export function SearchBar(props) {
   const inputBg = useColorModeValue("secondaryGray.300", "navy.900");
   const inputText = useColorModeValue("gray.700", "gray.100");
   return (
-    <InputGroup w={{ base: "100%", md: "300px" }} {...rest}>
+    <InputGroup 
+      w={{ base: "100%", md: "300px" }} 
+      display={{ base: "none", md: "block" }}
+      {...rest}
+    >
       <InputLeftElement>
         <IconButton
           aria-label="Search"

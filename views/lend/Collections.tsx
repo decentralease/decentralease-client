@@ -8,7 +8,7 @@ const Collections = () => {
 
     return (
         <SimpleGrid
-            columns={{ base: 2, "2xl": 3 }}
+            columns={{ base: 1, md: 2, "2xl": 3 }}
             spacing={8}
         >
             {
