@@ -18,7 +18,7 @@ export function SearchBar(props) {
   return (
     <InputGroup 
       w={{ base: "100%", md: "300px" }} 
-      display={{ base: "none", md: "block" }}
+      display={{ base: "none"}}
       {...rest}
     >
       <InputLeftElement>
