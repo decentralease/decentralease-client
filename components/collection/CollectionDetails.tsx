@@ -20,21 +20,6 @@ const CollectionDetails : React.FC<Props> = ({ contractAddress }) => {
 
     const { collection, loading } = useCollectionDetails(contractAddress);
 
-    // if(loading) {
-    //     <VStack>
-    //         <Spinner 
-    //             size='xl'
-    //         />
-    //     </VStack>
-    // }
-    // if(!collection) {
-    //     return (
-    //         <Skeleton 
-    //             height='100px'
-    //             startColor='gray.400'
-    //         />
-    //     );
-    // }
     return (
         <Skeleton 
             isLoaded={!loading && Boolean(collection)}

@@ -24,6 +24,7 @@ import {
     SliderTrack,
     SliderFilledTrack,
     SliderThumb,
+    useColorModeValue,
 
 } from '@chakra-ui/react'
 
@@ -60,6 +61,8 @@ const RentModal : React.FC<Props> = ({ isOpen, onClose, token }) => {
         setSuccess(true);
         setLoading(false);
     }
+
+    const textColor = useColorModeValue('secondaryGray.900', '#fff');
 
     return (
         <Modal 
@@ -107,14 +110,15 @@ const RentModal : React.FC<Props> = ({ isOpen, onClose, token }) => {
                                             </Heading>
                                         </VStack>
                                         <VStack
-                                            alignItems='flex-start'
+                                            alignItems={{base: 'center', md: 'flex-start'}}
                                             gap={4}
+                                            justifyContent='center'
                                         >
                                             <Heading>
                                                 Rental Agreement
                                             </Heading>
                                             <VStack
-                                                alignItems='flex-start'
+                                                alignItems={{base: 'center', md: 'flex-start'}}
                                                 spacing={2}
                                                 w='100%'
                                             >
@@ -131,14 +135,16 @@ const RentModal : React.FC<Props> = ({ isOpen, onClose, token }) => {
                                                         placeholder="Duration"
                                                         min={0}
                                                         max={maxDuration}
-                                                        step={0.001}
+                                                        step={1}
                                                         precision={3}
                                                         maxW='100px' 
                                                         mr='2rem' 
                                                         value={duration} 
                                                         onChange={(_, valueAsNumber) => setDuration(valueAsNumber)}
                                                     >
-                                                        <NumberInputField />
+                                                        <NumberInputField 
+                                                            color={textColor}
+                                                        />
                                                         <NumberInputStepper>
                                                             <NumberIncrementStepper />
                                                             <NumberDecrementStepper />
@@ -160,7 +166,9 @@ const RentModal : React.FC<Props> = ({ isOpen, onClose, token }) => {
                                                     </Slider>
                                                 </Flex>
                                             </VStack>
-                                            <Text>
+                                            <Text
+                                                textAlign={{base: 'center', md: 'left'}}
+                                            >
                                                 You are renting this NFT for <span>{duration.toFixed(3)}</span> days for a total price of {(duration * parseFloat(rentDetails.price)).toFixed(3)} MATIC.
                                             </Text>
                                             <Button

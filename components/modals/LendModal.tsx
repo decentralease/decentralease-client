@@ -18,6 +18,7 @@ import {
     NumberInputStepper,
     NumberIncrementStepper,
     NumberDecrementStepper,
+    useColorModeValue,
 } from '@chakra-ui/react'
 
 
@@ -73,6 +74,8 @@ const LendModal : React.FC<Props> = ({ isOpen, onClose, token, onLend }) => {
         setPricesPerDay(newPrices);
     }
 
+    const textColor = useColorModeValue('secondaryGray.900', '#fff');
+
     return (
         <Modal 
             isOpen={isOpen} 
@@ -109,7 +112,9 @@ const LendModal : React.FC<Props> = ({ isOpen, onClose, token, onLend }) => {
                                                 onChange={(_, val) => setAvailableFor(val)}
                                                 min={0}
                                             >
-                                                <NumberInputField />
+                                                <NumberInputField 
+                                                    color={textColor}
+                                                />
                                                 <NumberInputStepper>
                                                     <NumberIncrementStepper />
                                                     <NumberDecrementStepper />
@@ -133,7 +138,9 @@ const LendModal : React.FC<Props> = ({ isOpen, onClose, token, onLend }) => {
                                                                 min={0}
                                                                 step={1}
                                                             >
-                                                                <NumberInputField />
+                                                                <NumberInputField 
+                                                                    color={textColor}
+                                                                />
                                                                 <NumberInputStepper>
                                                                     <NumberIncrementStepper />
                                                                     <NumberDecrementStepper />
@@ -151,7 +158,9 @@ const LendModal : React.FC<Props> = ({ isOpen, onClose, token, onLend }) => {
                                                                 min={0}
                                                                 step={0.25}
                                                             >
-                                                                <NumberInputField />
+                                                                <NumberInputField 
+                                                                    color={textColor}
+                                                                />
                                                                 <NumberInputStepper>
                                                                     <NumberIncrementStepper />
                                                                     <NumberDecrementStepper />
