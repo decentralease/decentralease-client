@@ -22,9 +22,9 @@ interface Props {
     route: string;
 }
   
-const Collection : React.FC<Props> = ({ contractAddress, route, chain = 'ethereum' }) => {
+const Collection : React.FC<Props> = ({ contractAddress, route}) => {
 
-    const { collection, loading } = useCollectionDetails(contractAddress, chain)
+    const { collection, loading } = useCollectionDetails(contractAddress)
 
     const textColor = useColorModeValue("navy.700", "white");
 
@@ -71,7 +71,7 @@ const Collection : React.FC<Props> = ({ contractAddress, route, chain = 'ethereu
               justify='flex-end'
             >
               <Link
-                href={`${route}/${collection && collection.contractAddress}`}
+                href={`${route}/${contractAddress}`}
               >
                 <Button
                   variant='darkBrand'

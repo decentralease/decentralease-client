@@ -12,17 +12,10 @@ import {
 import Card from '../../components/card/Card'
 
 import Copyable from '../../components/utility/Copyable';
-import useDoNFTFactory from '../../hooks/use4907List';
 
 const WrapView = () => {
 
     const [contractAddress, setContractAddress] = useState<string>('');
-
-    const { 
-        deployDoNFT, 
-        newContractAddress, 
-        error 
-    } = useDoNFTFactory();
 
     return (
         <Card
@@ -50,12 +43,12 @@ const WrapView = () => {
                 <Button
                     variant='solid'
                     colorScheme='brand'
-                    onClick={() => deployDoNFT(contractAddress)}
+                    onClick={() => {}}
                     disabled={contractAddress.length === 0}
                 >
                     Wrap
                 </Button>
-                {
+                {/* {
                    Boolean(error) && (
                         <Text
                             color='red.500'
@@ -83,7 +76,7 @@ const WrapView = () => {
                             />
                         </HStack>
                     )
-                }
+                } */}
             </VStack>
         </Card>
     )

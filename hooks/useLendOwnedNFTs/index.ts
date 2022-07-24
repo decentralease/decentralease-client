@@ -1,48 +1,37 @@
-import { useAddress, useContract, useContractData } from "@thirdweb-dev/react";
-import { ethers } from "ethers";
+import { useAccount, useContractRead, useContractWrite } from "wagmi";
 import useApprovalForAll from "./useApprovalForAll";
 import useOwnedNFTs from "./useOwnedNFTs";
 
+import doNFTABI from '../../abis/doNFT.json'
+
 const useLendOwnedNFTs = (contractAddress: string) => {
 
-    const address = useAddress();
+    const { address } = useAccount();
 
-    // doNFT address
-    const { contract: doNFTContract } = useContract(contractAddress);
+    const { data: originalAddress } = useContractRead({
+        addressOrName: contractAddress,
+        contractInterface: doNFTABI,
+        functionName: 'getOriginalNftAddress',
+    })
 
-    const { contract: marketContract } = useContract(process.env.NEXT_PUBLIC_MARKET_ADDRESS);
-
-    const { data: originalAddress } = useContractData(doNFTContract, 'getOriginalNftAddress');
-
+    const { write: mintVNFTHook} = useContractWrite({
+        addressOrName: contractAddress,
+        contractInterface: doNFTABI,
+        functionName: 'mintVNft',
+    })
+    
     const { 
         approvedLoading,
         isApprovedForAll, 
         approveForAll,
-    } = useApprovalForAll(originalAddress, contractAddress);
+    } = useApprovalForAll(String(originalAddress), contractAddress);
 
-    const {ownedNFTs, setOwnedNFTs} = useOwnedNFTs(originalAddress);
+    const {ownedNFTs} = useOwnedNFTs(String(originalAddress));
 
     const mintVNFT = async (tokenId: number) => {
-        await doNFTContract.call("mintVNft", tokenId);
-        setOwnedNFTs(ownedNFTs.filter(nft => nft.tokenId !== tokenId));
+        await mintVNFTHook({args: [tokenId]});
+        // setOwnedNFTs(ownedNFTs.filter(nft => nft.tokenId !== tokenId));
     }
-
-    const stakeAndList = async (
-        tokenId: number, 
-        maxEndTime: moment.Moment, 
-        minDuration: number,
-        pricePerDay: number,
-    ) => {
-        return marketContract.call(
-            "mintAndCreateLendOrder",
-            contractAddress,
-            tokenId,
-            maxEndTime.unix(),
-            minDuration,
-            ethers.utils.parseEther(pricePerDay.toString()),
-            "0x0000000000000000000000000000000000000000"
-        )
-    };
 
     const stakeAndCreateSigma = async (
         tokenId: number,
@@ -50,14 +39,14 @@ const useLendOwnedNFTs = (contractAddress: string) => {
         prices: number[],
         durations: number[]
     ) => {
-        return marketContract.call('mintAndCreateSigma',
-            contractAddress,
-            tokenId,
-            "0x0000000000000000000000000000000000000000",
-            prices.map(price => ethers.utils.parseEther(price.toString())),
-            durations.map(duration => Math.ceil(duration * 24 * 60 * 60)),
-            maxEndTime.unix()
-        )
+        // return marketContract.call('mintAndCreateSigma',
+        //     contractAddress,
+        //     tokenId,
+        //     "0x0000000000000000000000000000000000000000",
+        //     prices.map(price => ethers.utils.parseEther(price.toString())),
+        //     durations.map(duration => Math.ceil(duration * 24 * 60 * 60)),
+        //     maxEndTime.unix()
+        // )
     }
 
     return {
@@ -67,7 +56,6 @@ const useLendOwnedNFTs = (contractAddress: string) => {
         loading: approvedLoading,
         approveForAll,
         mintVNFT,
-        stakeAndList,
         stakeAndCreateSigma
     }
 };

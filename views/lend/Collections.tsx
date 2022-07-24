@@ -12,11 +12,10 @@ const Collections = () => {
             spacing={8}
         >
             {
-                collections.map(collection => (
+                Object.keys(collections).map(contractAddress => (
                     <Collection
-                        key={collection.contractAddress}
-                        contractAddress={collection.contractAddress}
-                        chain={collection.chain}
+                        key={contractAddress}
+                        contractAddress={contractAddress}
                         route={'lend'}
                     />
                 ))

@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 
-import { useAddress, useContract } from '@thirdweb-dev/react';
+import { useAccount, useContract, useProvider } from 'wagmi';
+
+import useOwnedNFTs from './useLendOwnedNFTs/useOwnedNFTs';
 
 import moment from 'moment';
+
+import doNFTABI from '../abis/doNFT.json';
 
 import { Token } from './types';
 
@@ -12,21 +16,27 @@ interface ActiveRental extends Token {
 
 const useActiveRentals = (contractAddress : string) => {
 
-    const address = useAddress();
+    const { address } = useAccount();
+    const provider = useProvider();
 
     const [activeRentals, setActiveRentals] = useState<ActiveRental[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const { contract: doNFTContract } = useContract(contractAddress);
+    const { ownedNFTs } = useOwnedNFTs(contractAddress);
+
+    const doNFTContract = useContract({
+        addressOrName: contractAddress,
+        contractInterface: doNFTABI,
+        signerOrProvider: provider
+    });
 
     useEffect(() => {
         const getActiveRentals = async () => {
             const activeRentals : ActiveRental[] = [];
-            const ownedNFTs = await doNFTContract.nft.query.owned.all(address);
             await Promise.all(ownedNFTs.map(async (nft) => {
-                const isVNFT = await doNFTContract.call('isVNft', nft.metadata.id.toNumber());
+                const isVNFT = await doNFTContract.isVNft(nft.tokenId);
                 if(!isVNFT) {
-                    const doNftInfo = await doNFTContract.call('getDoNftInfo', nft.metadata.id.toNumber());
+                    const doNftInfo = await doNFTContract.getDoNftInfo(nft.tokenId);
                     const endTime = moment(doNftInfo.ends[0].toNumber() * 1000);
                     if(
                         moment().isBefore(endTime) &&
@@ -34,9 +44,9 @@ const useActiveRentals = (contractAddress : string) => {
                     ) {
                         activeRentals.push({
                             contractAddress,
-                            tokenId: nft.metadata.id.toNumber(),
-                            name: nft.metadata.name,
-                            image: nft.metadata.image,
+                            tokenId: nft.tokenId,
+                            name: nft.name,
+                            image: nft.image,
                             endTime
                         });
                     }   
@@ -45,10 +55,10 @@ const useActiveRentals = (contractAddress : string) => {
             setActiveRentals(activeRentals);
             setLoading(false);
         }
-        if(doNFTContract && address){
+        if(ownedNFTs){
             getActiveRentals();
         }
-    }, [doNFTContract, address, contractAddress]);
+    }, [doNFTContract, address, ownedNFTs, contractAddress]);
 
     return {
         walletConnected: Boolean(address),

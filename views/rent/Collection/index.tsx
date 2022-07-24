@@ -6,7 +6,8 @@ import {
     TabList, 
     TabPanels, 
     Tab, 
-    TabPanel
+    TabPanel,
+    Skeleton
 } from '@chakra-ui/react';
 
 import Available from './Available';
@@ -18,6 +19,7 @@ interface Props {
 }
 
 const Collection : React.FC<Props> = ({ contractAddress }) => {
+
     return (
         <Container
             gap={8}
@@ -30,27 +32,36 @@ const Collection : React.FC<Props> = ({ contractAddress }) => {
             <CollectionDetails
                 contractAddress={contractAddress}
             />
-            <Tabs 
-                isFitted
-                w={'100%'}
+            <Skeleton
+                isLoaded={contractAddress !== undefined}
+                w="100%"
             >
-                <TabList>
-                    <Tab>Available for Rent</Tab>
-                    <Tab>Active Rentals</Tab>
-                </TabList>
-                <TabPanels>
-                    <TabPanel>
-                        <Available 
-                            contractAddress={contractAddress}
-                        />
-                    </TabPanel>
-                    <TabPanel>
-                        <Active
-                            contractAddress={contractAddress}
-                        />
-                    </TabPanel>
-                </TabPanels>
-            </Tabs>         
+                <Tabs 
+                    isFitted
+                    w={'100%'}
+                >
+                    <TabList>
+                        <Tab>Available for Rent</Tab>
+                        <Tab>Active Rentals</Tab>
+                    </TabList>
+                    <TabPanels>
+                        <TabPanel>
+                            {
+                                contractAddress !== undefined && (
+                                    <Available 
+                                        contractAddress={contractAddress}
+                                    />
+                                )
+                            }
+                        </TabPanel>
+                        <TabPanel>
+                            <Active
+                                contractAddress={contractAddress}
+                            />
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
+            </Skeleton>
         </Container>
     )
 }

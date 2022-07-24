@@ -1,37 +1,26 @@
-import { useAddress, useContract, useContractData } from "@thirdweb-dev/react";
-import { useEffect, useState } from "react";
+import { useAccount, erc721ABI, useContractRead, useContractWrite } from "wagmi";
 
 const useApprovalForAll = (contractAddress: string, operator: string) => {
 
-    const address = useAddress();
+    const { address } = useAccount();
 
-    const { contract, error } = useContract(contractAddress);
+    const { data: approvedForAll, isLoading, isError } = useContractRead({
+        addressOrName: contractAddress,
+        contractInterface: erc721ABI,
+        functionName: 'isApprovedForAll',
+        args: [address, operator]
+    })
 
-    const [approvedLoading, setApprovedLoading] = useState<boolean>(true);
-    const [isApprovedForAll, setIsApprovedForAll] = useState<boolean>(false);
-
-    useEffect(() => {
-        const isApprovedForAll = async () => {
-            setIsApprovedForAll(await contract.call("isApprovedForAll", address, operator));
-            setApprovedLoading(false);
-        }
-        if(contract && address) {
-            isApprovedForAll();
-        }
-    }, [contract, address, operator]);
-
-    const approveForAll = async () => {
-        await contract.call(
-            "setApprovalForAll",
-            operator,
-            true
-        );
-        setIsApprovedForAll(true);
-    }
+    const { write: approveForAll } = useContractWrite({
+        addressOrName: contractAddress,
+        contractInterface: erc721ABI,
+        functionName: 'setApprovalForAll',
+        args: [operator, true]
+    })
 
     return {
-        approvedLoading,
-        isApprovedForAll,
+        approvedLoading: isLoading,
+        isApprovedForAll: Boolean(approvedForAll),
         approveForAll
     }
 

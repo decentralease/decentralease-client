@@ -1,30 +1,36 @@
-import { 
-    useCoinbaseWallet,
-    useMetamask,
-    useDisconnect,
-    useAddress
-} from "@thirdweb-dev/react";
+import { useAccount, useConnect } from 'wagmi'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
+
+const metamaskConnector = new MetaMaskConnector()
+const coinbaseConnector = new CoinbaseWalletConnector({
+    options: {
+      appName: 'Decentralease',
+    },
+  })
+
 
 const useWallet = () => {
 
-    const address = useAddress();
-    const connectWithCoinbaseWallet = useCoinbaseWallet();
-    const connectMetamask = useMetamask();
-    const disconnect = useDisconnect();
+    const { address } = useAccount()
+    const { connect } = useConnect()
 
-    const connectCoinbaseWallet = async () => {
-        await connectWithCoinbaseWallet();
+    const connectCoinbaseWallet = () => {
+        connect({
+            connector: coinbaseConnector,
+        });
     }
 
     const connectMetamaskWallet = async () => {
-        await connectMetamask();
+        connect({
+            connector: metamaskConnector,
+        });
     }
 
     return {
         address,
         connectCoinbaseWallet,
         connectMetamaskWallet,
-        disconnect
     }
 }
 

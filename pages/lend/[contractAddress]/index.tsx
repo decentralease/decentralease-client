@@ -9,6 +9,9 @@ const CollectionPage = () => {
     const { query } = useRouter();
     const { contractAddress } = query;
 
+    if(!contractAddress) {
+        return null;
+    }
     return (
         <Collection 
             contractAddress={contractAddress as string}

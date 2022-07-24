@@ -1,49 +1,66 @@
 import { useState } from "react";
 
-import { 
+import {
+    useAccount,
     useContract,
-    useContractData,
-    useAddress,
-} from "@thirdweb-dev/react";
+    useContractWrite,
+    useContractRead,
+    useSigner
+} from "wagmi";
+
 import { ethers } from "ethers";
+
+import marketABI from '../abis/market.json';
+import doNFTContractABI from '../abis/doNFT.json';
 
 const useRentModal = (contractAddress : string, tokenId : number) => {
 
-    const address = useAddress();
-    const { contract: marketContract } = useContract(process.env.NEXT_PUBLIC_MARKET_ADDRESS);
-    const { contract: doNFTContract } = useContract(contractAddress);
-    const { data: lendOrder } = useContractData(
-        marketContract,
-        "getLendOrder",
-        contractAddress,
-        tokenId
-    );
-    const { data: paymentSigma } = useContractData(
-        marketContract,
-        "getPaymentSigma",
-        contractAddress,
-        tokenId
-    );
+    const { address } = useAccount();
+    const { data: signer } = useSigner();
+
+    const doNFTContract = useContract({
+        addressOrName: contractAddress,
+        contractInterface: doNFTContractABI,
+        signerOrProvider: signer,
+    });
+
+    const { data: lendOrder } = useContractRead({
+        addressOrName: process.env.NEXT_PUBLIC_MARKET_ADDRESS,
+        contractInterface: marketABI,
+        functionName: 'getLendOrder',
+        args: [contractAddress, tokenId]
+    })
+
+    const { data: paymentSigma } = useContractRead({
+        addressOrName: process.env.NEXT_PUBLIC_MARKET_ADDRESS,
+        contractInterface: marketABI,
+        functionName: 'getPaymentSigma',
+        args: [contractAddress, tokenId]
+    })
+
+    const { write: fulfillOrderNow } = useContractWrite({
+        addressOrName: process.env.NEXT_PUBLIC_MARKET_ADDRESS,
+        contractInterface: marketABI,
+        functionName: 'fulfillOrderNow',
+        signerOrProvider: signer
+    })
 
     const [duration, setDuration] = useState(0);
 
     const rent = async () => {
-        const durationList = await doNFTContract.call("getDurationIdList", tokenId);
-        await marketContract.call(
-            "fulfillOrderNow", 
-            contractAddress, 
-            tokenId, 
-            durationList[0].toNumber(), 
-            Math.ceil(duration * 24 * 60 * 60), 
-            address,
-            {
+        const durationList = await doNFTContract.getDurationIdList(tokenId);
+        await fulfillOrderNow({
+            args: [
+                contractAddress, 
+                tokenId, 
+                durationList[0].toNumber(), 
+                Math.ceil(duration * 24 * 60 * 60), 
+                address,
+            ],
+            overrides: {
                 value: ethers.utils.parseEther((parseFloat(getPrice()) * duration).toString())
             }
-        );
-    }
-
-    if(paymentSigma){
-        console.log(paymentSigma.infos);
+        })
     }
 
     const getPrice = () => {

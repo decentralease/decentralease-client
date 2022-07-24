@@ -16,10 +16,10 @@ const CollectionsPreview = () => {
             w='100%'
         >
             {
-                collections.map(collection => (
+                Object.keys(collections).map(contractAddress => (
                     <Collection
-                        key={collection.contractAddress}
-                        contractAddress={collection.contractAddress}
+                        key={contractAddress}
+                        contractAddress={contractAddress}
                         route={'rent'}
                     />
                 ))

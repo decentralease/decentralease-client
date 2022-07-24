@@ -89,9 +89,6 @@ export const globalStyles = {
       heading: {
         fontFamily: "DM Sans",
       },
-      input: {
-        color: "gray.700",
-      },
       html: {
         fontFamily: "DM Sans",
       },

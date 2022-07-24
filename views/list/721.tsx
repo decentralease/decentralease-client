@@ -11,13 +11,10 @@ import {
 
 import Card from '../../components/card/Card';
 import Copyable from '../../components/utility/Copyable';
-import use721List from '../../hooks/use721List';
 
 const List721 = () => {
 
     const [contractAddress, setContractAddress] = useState<string>('');
-
-    const { newContractAddress, error, deployDoNFT } = use721List();
 
     return (
         <Card
@@ -45,12 +42,12 @@ const List721 = () => {
                 <Button
                     variant='solid'
                     colorScheme='brand'
-                    onClick={() => deployDoNFT(contractAddress)}
+                    onClick={() => {}}
                     disabled={contractAddress.length === 0}
                 >
                     Wrap
                 </Button>
-                {
+                {/* {
                     error && (
                         <Text
                             color='red.500'
@@ -78,7 +75,7 @@ const List721 = () => {
                             />
                         </HStack>
                     )
-                }
+                } */}
             </VStack>
         </Card>
     )

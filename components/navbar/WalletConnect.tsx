@@ -21,7 +21,6 @@ const WalletConnect = () => {
         address,
         connectCoinbaseWallet,
         connectMetamaskWallet,
-        disconnect,
     } = useWallet();
 
     let menuBg = useColorModeValue("white", "navy.800");
@@ -75,18 +74,9 @@ const WalletConnect = () => {
                 <Flex flexDirection='column' p='10px'>
                     {
                         address ? (
-                            <MenuItem
-                                _hover={{ bg: "none" }}
-                                _focus={{ bg: "none" }}
-                                color={'red.400'}
-                                borderRadius='8px'
-                                px='14px'
-                                onClick={() => disconnect()}
-                            >
-                                <Text fontSize='sm'>
-                                    Disconnect
-                                </Text>
-                            </MenuItem>
+                            <Text fontSize='sm'>
+                                Connected: {getEllipsisTxt(address, 4)}
+                            </Text>
                         ) : (
                             <>
                                 <MenuItem
