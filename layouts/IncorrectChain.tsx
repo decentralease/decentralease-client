@@ -7,7 +7,7 @@ import { useSwitchNetwork } from 'wagmi'
 
 const IncorrectChain = () => {
 
-    const { switchNetwork, chains } = useSwitchNetwork()
+    const { switchNetwork } = useSwitchNetwork()
 
   return (
     <VStack>
@@ -20,7 +20,7 @@ const IncorrectChain = () => {
         <Button
             variant='solid'
             colorScheme='brand'
-            onClick={() => switchNetwork(chains[0].id)}
+            onClick={() => switchNetwork(199)}
         >
             Switch Networks
         </Button>
