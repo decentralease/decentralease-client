@@ -31,26 +31,22 @@ interface Props {
     isOpen: boolean;
     onClose: () => void;
     onLend: (maxEndTime: moment.Moment, durations: number[], pricesPerDay: number[]) => Promise<void>;
+    success: boolean;
+    loading: boolean;
 }
 
-const LendModal : React.FC<Props> = ({ isOpen, onClose, token, onLend }) => {
+const LendModal : React.FC<Props> = ({ isOpen, onClose, token, onLend, success, loading }) => {
 
     const [availableFor, setAvailableFor] = useState<number>(0);
     const [durations, setDurations] = useState<number[]>([0]);
     const [pricesPerDay, setPricesPerDay] = useState<number[]>([0]);
 
-    const [loading, setLoading] = useState<boolean>(false);
-    const [success, setSuccess] = useState<boolean>(false);
-
     const onSubmit = async () => {
-        setLoading(true);
         await onLend(
             moment().add(availableFor, 'days'),
             pricesPerDay,
             durations,
         )
-        setSuccess(true);
-        setLoading(false);
     }
 
     const setPricePerDay = (index: number, value: number) => {
@@ -151,7 +147,7 @@ const LendModal : React.FC<Props> = ({ isOpen, onClose, token, onLend }) => {
                                                             alignItems={'flex-start'}
                                                             spacing={1}
                                                         >
-                                                            <Text>Price / Day ($MATIC)</Text>
+                                                            <Text>Price / Day ($BTT)</Text>
                                                             <NumberInput
                                                                 value={pricesPerDay[index]}
                                                                 onChange={(_, val) => setPricePerDay(index, val)}

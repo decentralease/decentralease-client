@@ -15,8 +15,8 @@ const useMintNFT = (contractAddress : string) => {
         functionName: 'mintTo',
     })
 
-    const mint = async (name: string, file: File) => {
-        await write({args: [address, "ipfs://QmX16g5pZ9snEUxrjFWBZKvzXYfUJFou5hjsXAB7VKjZ5H/0"]});
+    const mint = async (uri : string) => {
+        await write({args: [address, uri]});
     }
 
     return {

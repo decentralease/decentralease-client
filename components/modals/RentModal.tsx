@@ -48,18 +48,14 @@ const RentModal : React.FC<Props> = ({ isOpen, onClose, token }) => {
         setDuration,
         rentDetails,
         rent,
+        fulfillLoading,
+        fulfillSuccess,
     } = useRentModal(token.contractAddress, token.tokenId);
 
     const maxDuration = moment.unix(rentDetails.maxEndTime).diff(moment(), 'days');
 
-    const [loading, setLoading] = useState<boolean>(false);
-    const [success, setSuccess] = useState<boolean>(false);
-
     const onSubmit = async () => {
-        setLoading(true);
         await rent();
-        setSuccess(true);
-        setLoading(false);
     }
 
     const textColor = useColorModeValue('secondaryGray.900', '#fff');
@@ -80,10 +76,10 @@ const RentModal : React.FC<Props> = ({ isOpen, onClose, token }) => {
                     p={0}
                 >
                     {
-                        success ? (
+                        fulfillSuccess ? (
                             <Success />
                         ) : (
-                            loading ? (
+                            fulfillLoading ? (
                                 <Loading />
                             ) : (
                                 <>
@@ -123,7 +119,7 @@ const RentModal : React.FC<Props> = ({ isOpen, onClose, token }) => {
                                                 w='100%'
                                             >
                                                 <Text>
-                                                    Price: {rentDetails.price} MATIC / day
+                                                    Price: {rentDetails.price} BTT / day
                                                 </Text>
                                                 <Text>
                                                     Max Duration: {maxDuration} days
@@ -169,7 +165,7 @@ const RentModal : React.FC<Props> = ({ isOpen, onClose, token }) => {
                                             <Text
                                                 textAlign={{base: 'center', md: 'left'}}
                                             >
-                                                You are renting this NFT for {duration} days for a total price of {(duration * parseFloat(rentDetails.price)).toFixed(3)} MATIC.
+                                                You are renting this NFT for {duration} days for a total price of {(duration * parseFloat(rentDetails.price)).toFixed(3)} BTT.
                                             </Text>
                                             <Button
                                                 variant='solid'

@@ -10,24 +10,17 @@ const Mint : FC<Props> = ({ contractAddress }) => {
 
     const { mint } = useMintNFT(contractAddress)
 
-    const [name, setName] = useState<string>('')
-    const [file, setFile] = useState<File>()
-
+    const [uri, setUri] = useState<string>('')
 
     return (
         <VStack>
             <Input
-                placeholder="Image"
-                type='file'
-                onChange={(e) => setFile(e.target.files[0])}
-            />
-            <Input
-                placeholder="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                placeholder="URI"
+                value={uri}
+                onChange={(e) => setUri(e.target.value)}
             />
             <Button
-                onClick={() => mint(name, file)}
+                onClick={() => mint(uri)}
             >
                 Mint
             </Button>

@@ -1,14 +1,11 @@
-import { useState, useEffect } from 'react';
-
 import moment from "moment";
 import { ethers } from "ethers";
 
-import { useAccount, useContractWrite, useContract, useSigner, useContractRead, useProvider } from "wagmi";
+import { useAccount, useContractWrite, useContract, useSigner, useContractReads, useProvider } from "wagmi";
 import useOwnedNFTs from "./useLendOwnedNFTs/useOwnedNFTs";
 
 import doNFTABI from "../abis/doNFT.json";
 import marketABI from "../abis/market.json";
-import { Token } from "./types";
 
 const useStakedNFTs = (contractAddress: string) => {
 
@@ -20,7 +17,7 @@ const useStakedNFTs = (contractAddress: string) => {
         ownedNFTs: stakedNFTs
     } = useOwnedNFTs(contractAddress);
 
-    const { write: createSigmaHook } = useContractWrite({
+    const { write: createSigmaHook, isLoading: lendLoading, isSuccess: lendSuccess } = useContractWrite({
         addressOrName: process.env.NEXT_PUBLIC_MARKET_ADDRESS,
         contractInterface: marketABI,
         functionName: 'createSigma',
@@ -39,20 +36,14 @@ const useStakedNFTs = (contractAddress: string) => {
         signerOrProvider: signer
     })
 
-    const [vNfts, setVNfts] = useState<Token[]>([]);
-
-    useEffect(() => {
-        const getVNfts = async () => {
-            const areVNFTs = await Promise.all(stakedNFTs.map(async nft => {
-                const isVNFT = await doNFTContract.isVNft(nft.tokenId);
-                return isVNFT;
-            }))
-            setVNfts(stakedNFTs.filter((_, i) => areVNFTs[i]));
-        }
-        if(stakedNFTs.length > 0 && doNFTContract) {
-            getVNfts();
-        }
-    }, [stakedNFTs, doNFTContract])
+    const { data: areVNFTs, isLoading } = useContractReads({
+        contracts: stakedNFTs.map(({ tokenId }) => ({
+            addressOrName: contractAddress,
+            contractInterface: doNFTABI,
+            functionName: 'isVNft',
+            args: [tokenId]
+        }))
+    })
 
     const createSigma = async (
         tokenId: number,
@@ -79,14 +70,16 @@ const useStakedNFTs = (contractAddress: string) => {
             args: [
                 tokenId,
                 durationList.map(duration => duration.toNumber())
-        ]
+            ]
         })
     }
 
     return {
         walletConnected: Boolean(address),
-        stakedNFTs: vNfts,
+        stakedNFTs: isLoading ? [] : stakedNFTs.filter((_, index) => areVNFTs[index]),
         createSigma,
+        lendLoading,
+        lendSuccess,
         redeemVNFT,
     };
 }

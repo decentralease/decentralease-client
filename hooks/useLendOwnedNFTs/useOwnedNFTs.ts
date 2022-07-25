@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAccount, useContractRead, useContractReads } from "wagmi";
 
 import collectionABI from '../../abis/collection.json';
+import { getLink } from "../../services/ipfs";
 
 import { Token } from "../types";
 
@@ -16,7 +17,7 @@ const useOwnedNFTs = (contractAddress: string) => {
         addressOrName: contractAddress,
         contractInterface: collectionABI,
         functionName: 'balanceOf',
-        args: [address]
+        args: [address],
     })
 
     const { data: ownedNFTsRaw } = useContractReads({
@@ -37,12 +38,24 @@ const useOwnedNFTs = (contractAddress: string) => {
         }))
     })
 
-    const ownedNFTs: Token[] = (ownedNFTsRaw || []).map(token => ({
-        contractAddress,
-        tokenId: token && token.toNumber(),
-        name: 'AAA',
-        image: 'https://ipfs.io/ipfs/QmWDUqzbCsGh3YLqssotJY3GCQVXmuPEj7spLQEpwgN9Jp/0.png',
-    }))
+    const [ownedNFTs, setOwnedNFTs] = useState<Token[]>([]);
+
+    useEffect(() => {
+        const getTokenMetadata = async () => {
+            const metadata = await Promise.all(ownedNFTsUris.map(async uri => (
+                fetch(getLink(String(uri))).then(res => res.json())
+            )))
+            setOwnedNFTs(ownedNFTsRaw.map((token, i) => ({
+                contractAddress,
+                name: metadata[i].name,
+                tokenId: token && token.toNumber(),
+                image: getLink(metadata[i].image),
+            })))
+        }
+        if(ownedNFTsRaw && ownedNFTsUris) {
+            getTokenMetadata();
+        }
+    }, [ownedNFTsRaw, ownedNFTsUris, contractAddress])
 
     return {
         ownedNFTs,

@@ -23,7 +23,9 @@ const Staked : React.FC<Props> = ({ contractAddress }) => {
         walletConnected,
         stakedNFTs,
         createSigma,
-        redeemVNFT
+        redeemVNFT,
+        lendLoading,
+        lendSuccess
     } = useStakedNFTs(contractAddress);
 
     const [selectedTokenIndex, setSelectedTokenIndex] = React.useState<number>(0);
@@ -72,6 +74,8 @@ const Staked : React.FC<Props> = ({ contractAddress }) => {
                 onClose={onClose}
                 token={stakedNFTs[0]}
                 onLend={onLend}
+                loading={lendLoading}
+                success={lendSuccess}
             />
             <VStack
                 spacing={4}

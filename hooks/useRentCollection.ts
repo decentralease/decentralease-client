@@ -1,10 +1,8 @@
-import { useContract, useContractRead, useProvider, useSigner } from 'wagmi'
-import { useEffect, useState } from 'react';
+import { useContractRead, useContractReads } from 'wagmi'
 
 import moment from 'moment';
 
 import { Token } from './types';
-import { Contract } from 'ethers';
 
 interface TokenForRent extends Token {
     minDuration: number,
@@ -13,59 +11,73 @@ interface TokenForRent extends Token {
 
 import marketABI from '../abis/market.json';
 import doNFTABI from '../abis/doNFT.json';
+import { useEffect, useState } from 'react';
+import { getLink } from '../services/ipfs';
 
 const useRentCollection = (contractAddress : string) => {
 
-    const provider = useProvider();
-
-    const marketContract = useContract({
-        addressOrName: process.env.NEXT_PUBLIC_MARKET_ADDRESS,
-        contractInterface: marketABI,
-        signerOrProvider: provider,
-    });
-
-    const doNFTContract = useContract({
+    const { data: curDoid } = useContractRead({
         addressOrName: contractAddress,
         contractInterface: doNFTABI,
-        signerOrProvider: provider,
+        functionName: 'curDoid',
     });
 
+    const { data: lendOrders, isLoading: lendOrdersLoading } = useContractReads({
+        contracts: Array.from({length: curDoid?.toNumber() || 0}, (x, i) => (i + 1)).map(tokenId => ({
+            addressOrName: process.env.NEXT_PUBLIC_MARKET_ADDRESS,
+            contractInterface: marketABI,
+            functionName: 'getLendOrder',
+            args: [contractAddress, tokenId],
+        }))
+    })
+
+    const { data: tokenUris, isLoading: tokenUrisLoading } = useContractReads({
+        contracts: lendOrders?.map(({ nftId }) => ({
+            addressOrName: contractAddress,
+            contractInterface: doNFTABI,
+            functionName: 'tokenURI',
+            args: [nftId]
+        })) || []
+    })
+
+    const { data: durations, isLoading: durationsLoading } = useContractReads({
+        contracts: lendOrders?.map(lendOrder => ({
+            addressOrName: contractAddress,
+            contractInterface: doNFTABI,
+            functionName: 'getDurationByIndex',
+            args: [lendOrder.nftId, 0],
+        })) || [],
+    })
+
     const [tokensForRent, setTokensForRent] = useState<TokenForRent[]>([]);
-    const [loading, setLoading ] = useState<boolean>(true);  
 
     useEffect(() => {
-        const getRentCollection = async () => {
-            const totalSupply = await doNFTContract.curDoid();
-            const tokensForRent : TokenForRent[] = [];
-            await Promise.all(Array.from({length: totalSupply.toNumber()}, (x, i) => (i + 1)).map(async (tokenId) => {
-                const lendOrder = await marketContract.getLendOrder(contractAddress, tokenId);
-                const maxEndTime = moment(lendOrder.maxEndTime.toNumber() * 1000);
-                if(maxEndTime.isAfter(moment())){
-                    // const tokenMetadata = await doNFTContract.nft.getTokenMetadata(tokenId);
-                    const firstDuration = await doNFTContract.getDurationByIndex(tokenId, 0);
-                    if(moment().isAfter(moment(firstDuration.start.toNumber() * 1000))) {
-                        tokensForRent.push({
-                            contractAddress,
-                            tokenId,
-                            name: "Jason",
-                            image: 'https://ipfs.io/ipfs/QmWDUqzbCsGh3YLqssotJY3GCQVXmuPEj7spLQEpwgN9Jp/0.png',
-                            maxEndTime,
-                            minDuration: lendOrder.minDuration.toNumber(),
-                        });
-                    }
-                }
-            }));
-            setTokensForRent(tokensForRent);
-            setLoading(false);
+        const getTokenMetadata = async () => {
+            const metadata = await Promise.all(tokenUris
+                .map(async uri => (
+                    Boolean(uri) ? fetch(getLink(String(uri))).then(res => res.json()) : ""
+                )))
+            console.log(metadata);
+            setTokensForRent(lendOrders
+                .map((lendOrder, index) => ({
+                    contractAddress,
+                    tokenId: lendOrder.nftId,
+                    name: metadata[index].name,
+                    image: getLink(metadata[index].image),
+                    maxEndTime: moment(lendOrder.maxEndTime.toNumber() * 1000),
+                    minDuration: lendOrder.minDuration.toNumber(),
+                }))
+                .filter((_, index) => Boolean(durations[index]) && moment().isAfter(moment(durations[index].start.toNumber() * 1000))))
         }
-        if (doNFTContract && marketContract) {
-            getRentCollection();
+        if(lendOrders && durations && tokenUris) {
+            console.log(lendOrders, durations, tokenUris);
+            getTokenMetadata();
         }
-    }, [doNFTContract, contractAddress, marketContract]);
+    }, [lendOrders, durations, contractAddress, tokenUris])
 
     return {
         tokensForRent,
-        loading,
+        loading: durationsLoading || lendOrdersLoading,
     }
 
 }

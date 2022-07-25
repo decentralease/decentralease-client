@@ -2,7 +2,10 @@ import { useAccount, useContractRead, useContractWrite } from "wagmi";
 import useApprovalForAll from "./useApprovalForAll";
 import useOwnedNFTs from "./useOwnedNFTs";
 
+import { ethers } from "ethers";
+
 import doNFTABI from '../../abis/doNFT.json'
+import marketABI from '../../abis/market.json'
 
 const useLendOwnedNFTs = (contractAddress: string) => {
 
@@ -20,6 +23,12 @@ const useLendOwnedNFTs = (contractAddress: string) => {
         functionName: 'mintVNft',
     })
     
+    const { write: mintAndCreateSigmaHook, isLoading: lendLoading, isSuccess: lendSuccess} = useContractWrite({
+        addressOrName: process.env.NEXT_PUBLIC_MARKET_ADDRESS,
+        contractInterface: marketABI,
+        functionName: 'mintAndCreateSigma',
+    })
+    
     const { 
         approvedLoading,
         isApprovedForAll, 
@@ -30,7 +39,6 @@ const useLendOwnedNFTs = (contractAddress: string) => {
 
     const mintVNFT = async (tokenId: number) => {
         await mintVNFTHook({args: [tokenId]});
-        // setOwnedNFTs(ownedNFTs.filter(nft => nft.tokenId !== tokenId));
     }
 
     const stakeAndCreateSigma = async (
@@ -39,14 +47,16 @@ const useLendOwnedNFTs = (contractAddress: string) => {
         prices: number[],
         durations: number[]
     ) => {
-        // return marketContract.call('mintAndCreateSigma',
-        //     contractAddress,
-        //     tokenId,
-        //     "0x0000000000000000000000000000000000000000",
-        //     prices.map(price => ethers.utils.parseEther(price.toString())),
-        //     durations.map(duration => Math.ceil(duration * 24 * 60 * 60)),
-        //     maxEndTime.unix()
-        // )
+        return mintAndCreateSigmaHook({
+            args: [
+                contractAddress,
+                tokenId,
+                "0x0000000000000000000000000000000000000000",
+                prices.map(price => ethers.utils.parseEther(price.toString())),
+                durations.map(duration => Math.ceil(duration * 24 * 60 * 60)),
+                maxEndTime.unix()
+            ]
+        })
     }
 
     return {
@@ -56,6 +66,8 @@ const useLendOwnedNFTs = (contractAddress: string) => {
         loading: approvedLoading,
         approveForAll,
         mintVNFT,
+        lendLoading,
+        lendSuccess,
         stakeAndCreateSigma
     }
 };

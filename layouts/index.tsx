@@ -9,6 +9,9 @@ import React, { useState, createRef } from "react";
 import { useRouter } from "next/router";
 import routes from "../routes";
 
+import { useNetwork } from "wagmi";
+import IncorrectChain from "./IncorrectChain";
+
 interface Props {
   children: React.ReactNode;
 }
@@ -19,6 +22,8 @@ const Layout : React.FC<Props> = ({ children }) => {
   const router = useRouter();
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
+
+  const { chain } = useNetwork();
 
   const getActiveRoute = (routes) => {
     let activeRoute = "Decentralease";
@@ -124,7 +129,13 @@ const Layout : React.FC<Props> = ({ children }) => {
               flexDirection='column'
               alignItems='center'
             >
-              {children}
+              {
+                chain?.unsupported ? (
+                  <IncorrectChain />
+                ) : (
+                  children
+                )
+              }
             </Container>
           </Flex>
         </Box>

@@ -27,7 +27,9 @@ const Owned : React.FC<Props> = ({ contractAddress }) => {
         loading,
         approveForAll,
         mintVNFT,
-        stakeAndCreateSigma
+        stakeAndCreateSigma,
+        lendLoading,
+        lendSuccess
     } = useLendOwnedNFTs(contractAddress);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -82,6 +84,8 @@ const Owned : React.FC<Props> = ({ contractAddress }) => {
                 onClose={onClose}
                 token={ownedNFTs[selectedTokenIndex]}
                 onLend={onLend}
+                loading={lendLoading}
+                success={lendSuccess}
             />
             <VStack
                 spacing={4}

@@ -8,7 +8,7 @@ const useApprovalForAll = (contractAddress: string, operator: string) => {
         addressOrName: contractAddress,
         contractInterface: erc721ABI,
         functionName: 'isApprovedForAll',
-        args: [address, operator]
+        args: [address, operator],
     })
 
     const { write: approveForAll } = useContractWrite({

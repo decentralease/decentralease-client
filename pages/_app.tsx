@@ -10,9 +10,9 @@ import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 import { InjectedConnector } from 'wagmi/connectors/injected'
 
 const donau : Chain = {
-  id: 1029,
-  name: "BitTorrent Chain Donau",
-  network: "donau",
+  id: 199,
+  name: "BitTorrent Chain Mainnet",
+  network: "bittorrent",
   /** Currency used by chain */
   nativeCurrency: {
     decimals: 18,
@@ -20,19 +20,19 @@ const donau : Chain = {
     name: "BitTorrent Token"
   },
   rpcUrls: {
-    default: 'https://pre-rpc.bt.io/'
+    default: 'https://bttc.trongrid.io'
   },
   blockExplorers: {
     default: {
       name: "Block Explorer",
-      url: "https://testscan.bt.io/"
+      url: "https://scan.bt.io"
     }
   },
   testnet: true
 }
 
 const { chains, provider } = configureChains([donau], [
-  jsonRpcProvider({rpc: () => ({http: 'https://pre-rpc.bt.io/'})})
+  jsonRpcProvider({rpc: () => ({http: 'https://bttc.trongrid.io'})})
 ])
 
 const client = createClient({

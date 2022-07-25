@@ -38,7 +38,7 @@ const useRentModal = (contractAddress : string, tokenId : number) => {
         args: [contractAddress, tokenId]
     })
 
-    const { write: fulfillOrderNow } = useContractWrite({
+    const { write: fulfillOrderNow, isLoading: fulfillLoading, isSuccess: fulfillSuccess } = useContractWrite({
         addressOrName: process.env.NEXT_PUBLIC_MARKET_ADDRESS,
         contractInterface: marketABI,
         functionName: 'fulfillOrderNow',
@@ -84,6 +84,8 @@ const useRentModal = (contractAddress : string, tokenId : number) => {
         duration,
         setDuration,
         rent,
+        fulfillLoading,
+        fulfillSuccess,
     }
 
 }
