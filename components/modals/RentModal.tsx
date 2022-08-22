@@ -119,7 +119,7 @@ const RentModal : React.FC<Props> = ({ isOpen, onClose, token }) => {
                                                 w='100%'
                                             >
                                                 <Text>
-                                                    Price: {rentDetails.price} BTT / day
+                                                    Price: {rentDetails.price} MATIC / day
                                                 </Text>
                                                 <Text>
                                                     Max Duration: {maxDuration} days
@@ -165,7 +165,7 @@ const RentModal : React.FC<Props> = ({ isOpen, onClose, token }) => {
                                             <Text
                                                 textAlign={{base: 'center', md: 'left'}}
                                             >
-                                                You are renting this NFT for {duration} days for a total price of {(duration * parseFloat(rentDetails.price)).toFixed(3)} BTT.
+                                                You are renting this NFT for {duration} days for a total price of {(duration * parseFloat(rentDetails.price)).toFixed(3)} MATIC.
                                             </Text>
                                             <Button
                                                 variant='solid'
