@@ -147,7 +147,7 @@ const LendModal : React.FC<Props> = ({ isOpen, onClose, token, onLend, success, 
                                                             alignItems={'flex-start'}
                                                             spacing={1}
                                                         >
-                                                            <Text>Price / Day ($BTT)</Text>
+                                                            <Text>Price / Day ($MATIC)</Text>
                                                             <NumberInput
                                                                 value={pricesPerDay[index]}
                                                                 onChange={(_, val) => setPricePerDay(index, val)}
