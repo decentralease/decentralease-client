@@ -5,15 +5,15 @@ import theme from "../theme/theme";
 
 import Layout from '../layouts';
 
-import { WagmiConfig, createClient, configureChains, defaultChains, Chain } from 'wagmi'
+import { WagmiConfig, createClient, configureChains, Chain } from 'wagmi'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
+import { publicProvider } from 'wagmi/providers/public';
 import { InjectedConnector } from 'wagmi/connectors/injected'
 
 const donau : Chain = {
   id: 199,
   name: "BitTorrent Chain Mainnet",
   network: "bittorrent",
-  /** Currency used by chain */
   nativeCurrency: {
     decimals: 18,
     symbol: "BTT",
@@ -31,8 +31,29 @@ const donau : Chain = {
   testnet: true
 }
 
-const { chains, provider } = configureChains([donau], [
-  jsonRpcProvider({rpc: () => ({http: 'https://bttc.trongrid.io'})})
+const mumbai : Chain = {
+  id: 80001,
+  name: "Polygon Mumbai Testnet",
+  network: "mumbai",
+  nativeCurrency: {
+    decimals: 18,
+    symbol: "MATIC",
+    name: "Matic"
+  },
+  rpcUrls: {
+    default: 'https://rpc-mumbai.maticvigil.com'
+  },
+  blockExplorers: {
+    default: {
+      name: "Block Explorer",
+      url: "https://polygonscan.com/"
+    }
+  },
+}
+
+const { chains, provider } = configureChains([mumbai, donau], [
+  publicProvider(),
+  jsonRpcProvider({rpc: (chain) => (chain.id === donau.id ? {http: 'https://bttc.trongrid.io'} : null)}),
 ])
 
 const client = createClient({

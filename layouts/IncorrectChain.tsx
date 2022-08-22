@@ -1,31 +1,36 @@
 import React from 'react'
 
-import { Heading, VStack, Text, Button } from '@chakra-ui/react'
+import { Heading, VStack, Text, Button, useDisclosure } from '@chakra-ui/react'
 
-import { useSwitchNetwork } from 'wagmi'
-
+import SwitchNetworks from '../components/modals/SwitchNetworks'
 
 const IncorrectChain = () => {
 
-    const { switchNetwork } = useSwitchNetwork()
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
-  return (
-    <VStack>
-        <Heading>
-            Incorrect Network
-        </Heading>
-        <Text>
-            You must be on the BitTorrent Chain to access Decentralease.
-        </Text>
-        <Button
-            variant='solid'
-            colorScheme='brand'
-            onClick={() => switchNetwork(199)}
-        >
-            Switch Networks
-        </Button>
-    </VStack>
-  )
+    return (
+        <>
+            <SwitchNetworks 
+                isOpen={isOpen}
+                onClose={onClose}
+            />
+            <VStack>
+                <Heading>
+                    Incorrect Network
+                </Heading>
+                <Text>
+                    You must switch to a supported chain to access Decentralease.
+                </Text>
+                <Button
+                    variant='solid'
+                    colorScheme='brand'
+                    onClick={onOpen}
+                >
+                    Switch Networks
+                </Button>
+            </VStack>
+        </>
+    )
 }
 
 export default IncorrectChain

@@ -5,18 +5,21 @@ import {
     useContract,
     useContractWrite,
     useContractRead,
-    useSigner
+    useSigner,
+    useNetwork
 } from "wagmi";
 
 import { ethers } from "ethers";
 
 import marketABI from '../abis/market.json';
 import doNFTContractABI from '../abis/doNFT.json';
+import { getMarket } from "../data/markets";
 
 const useRentModal = (contractAddress : string, tokenId : number) => {
 
     const { address } = useAccount();
     const { data: signer } = useSigner();
+    const { chain } = useNetwork();
 
     const doNFTContract = useContract({
         addressOrName: contractAddress,
@@ -25,21 +28,21 @@ const useRentModal = (contractAddress : string, tokenId : number) => {
     });
 
     const { data: lendOrder } = useContractRead({
-        addressOrName: process.env.NEXT_PUBLIC_MARKET_ADDRESS,
+        addressOrName: getMarket(chain?.id),
         contractInterface: marketABI,
         functionName: 'getLendOrder',
         args: [contractAddress, tokenId]
     })
 
     const { data: paymentSigma } = useContractRead({
-        addressOrName: process.env.NEXT_PUBLIC_MARKET_ADDRESS,
+        addressOrName: getMarket(chain?.id),
         contractInterface: marketABI,
         functionName: 'getPaymentSigma',
         args: [contractAddress, tokenId]
     })
 
     const { write: fulfillOrderNow, isLoading: fulfillLoading, isSuccess: fulfillSuccess } = useContractWrite({
-        addressOrName: process.env.NEXT_PUBLIC_MARKET_ADDRESS,
+        addressOrName: getMarket(chain?.id),
         contractInterface: marketABI,
         functionName: 'fulfillOrderNow',
         signerOrProvider: signer

@@ -1,4 +1,4 @@
-import { useContractRead, useContractReads } from 'wagmi'
+import { useContractRead, useContractReads, useNetwork } from 'wagmi'
 
 import moment from 'moment';
 
@@ -13,8 +13,11 @@ import marketABI from '../abis/market.json';
 import doNFTABI from '../abis/doNFT.json';
 import { useEffect, useState } from 'react';
 import { getLink } from '../services/ipfs';
+import { getMarket } from '../data/markets';
 
 const useRentCollection = (contractAddress : string) => {
+
+    const { chain } = useNetwork();
 
     const { data: curDoid } = useContractRead({
         addressOrName: contractAddress,
@@ -24,7 +27,7 @@ const useRentCollection = (contractAddress : string) => {
 
     const { data: lendOrders, isLoading: lendOrdersLoading } = useContractReads({
         contracts: Array.from({length: curDoid?.toNumber() || 0}, (x, i) => (i + 1)).map(tokenId => ({
-            addressOrName: process.env.NEXT_PUBLIC_MARKET_ADDRESS,
+            addressOrName: getMarket(chain?.id),
             contractInterface: marketABI,
             functionName: 'getLendOrder',
             args: [contractAddress, tokenId],

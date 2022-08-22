@@ -37,7 +37,6 @@ const AdminNavbar : React.FC<Props> = ({
 
   // Here are all the props that may change depending on navbar's type or state.(secondary, variant, scrolled)
   let mainText = useColorModeValue("navy.700", "white");
-  let secondaryText = useColorModeValue("gray.700", "white");
   let navbarFilter = "none";
   let navbarBackdrop = "blur(20px)";
   let navbarShadow = "none";

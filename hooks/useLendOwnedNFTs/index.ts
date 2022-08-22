@@ -1,4 +1,4 @@
-import { useAccount, useContractRead, useContractWrite } from "wagmi";
+import { useAccount, useContractRead, useContractWrite, useNetwork } from "wagmi";
 import useApprovalForAll from "./useApprovalForAll";
 import useOwnedNFTs from "./useOwnedNFTs";
 
@@ -6,10 +6,12 @@ import { ethers } from "ethers";
 
 import doNFTABI from '../../abis/doNFT.json'
 import marketABI from '../../abis/market.json'
+import { getMarket } from "../../data/markets";
 
 const useLendOwnedNFTs = (contractAddress: string) => {
 
     const { address } = useAccount();
+    const { chain } = useNetwork();
 
     const { data: originalAddress } = useContractRead({
         addressOrName: contractAddress,
@@ -24,7 +26,7 @@ const useLendOwnedNFTs = (contractAddress: string) => {
     })
     
     const { write: mintAndCreateSigmaHook, isLoading: lendLoading, isSuccess: lendSuccess} = useContractWrite({
-        addressOrName: process.env.NEXT_PUBLIC_MARKET_ADDRESS,
+        addressOrName: getMarket(chain?.id),
         contractInterface: marketABI,
         functionName: 'mintAndCreateSigma',
     })

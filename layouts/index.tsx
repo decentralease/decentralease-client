@@ -4,13 +4,14 @@ import { Portal, Box, useDisclosure, Container, Flex } from "@chakra-ui/react";
 import Navbar from "../components/navbar/Navbar";
 import Sidebar from "../components/sidebar/Sidebar";
 import { SidebarContext } from "../contexts/SidebarContext";
-import React, { useState, createRef } from "react";
+import React, { useState } from "react";
 
 import { useRouter } from "next/router";
 import routes from "../routes";
 
-import { useNetwork } from "wagmi";
 import IncorrectChain from "./IncorrectChain";
+import NotConnected from "./NotConnected";
+import useLayout from "../hooks/useLayout";
 
 interface Props {
   children: React.ReactNode;
@@ -23,7 +24,7 @@ const Layout : React.FC<Props> = ({ children }) => {
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
 
-  const { chain } = useNetwork();
+  const { connected, correctChain } = useLayout();
 
   const getActiveRoute = (routes) => {
     let activeRoute = "Decentralease";
@@ -130,10 +131,14 @@ const Layout : React.FC<Props> = ({ children }) => {
               alignItems='center'
             >
               {
-                chain?.unsupported ? (
-                  <IncorrectChain />
+                !connected ? (
+                  <NotConnected />
                 ) : (
-                  children
+                  !correctChain ? (
+                    <IncorrectChain />
+                  ) : (
+                    children
+                  )
                 )
               }
             </Container>

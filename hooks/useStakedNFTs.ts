@@ -1,24 +1,26 @@
 import moment from "moment";
 import { ethers } from "ethers";
 
-import { useAccount, useContractWrite, useContract, useSigner, useContractReads, useProvider } from "wagmi";
+import { useAccount, useContractWrite, useContract, useSigner, useContractReads, useProvider, useNetwork } from "wagmi";
 import useOwnedNFTs from "./useLendOwnedNFTs/useOwnedNFTs";
 
 import doNFTABI from "../abis/doNFT.json";
 import marketABI from "../abis/market.json";
+import { getMarket } from "../data/markets";
 
 const useStakedNFTs = (contractAddress: string) => {
 
     const { address } = useAccount();
     const provider = useProvider();
-    const { data: signer } = useSigner()
+    const { data: signer } = useSigner();
+    const { chain } = useNetwork();
 
     const {
         ownedNFTs: stakedNFTs
     } = useOwnedNFTs(contractAddress);
 
     const { write: createSigmaHook, isLoading: lendLoading, isSuccess: lendSuccess } = useContractWrite({
-        addressOrName: process.env.NEXT_PUBLIC_MARKET_ADDRESS,
+        addressOrName: getMarket(chain?.id),
         contractInterface: marketABI,
         functionName: 'createSigma',
     })

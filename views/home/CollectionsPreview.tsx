@@ -6,9 +6,12 @@ import {
 
 import Collection from '../../components/card/Collection';
 
-import collections from '../../data/contracts';
+import useCollections from '../../hooks/useCollections';
 
 const CollectionsPreview = () => {
+
+    const collections = useCollections();
+
     return (
         <SimpleGrid
             columns={{base: 1, lg: 2}}
@@ -16,7 +19,7 @@ const CollectionsPreview = () => {
             w='100%'
         >
             {
-                Object.keys(collections).map(contractAddress => (
+                collections.map(contractAddress => (
                     <Collection
                         key={contractAddress}
                         contractAddress={contractAddress}
