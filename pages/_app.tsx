@@ -51,6 +51,8 @@ const mumbai : Chain = {
   },
 }
 
+export const chains_data = [mumbai, donau];
+
 const { chains, provider } = configureChains([mumbai, donau], [
   publicProvider(),
   jsonRpcProvider({rpc: (chain) => (chain.id === donau.id ? {http: 'https://bttc.trongrid.io'} : null)}),

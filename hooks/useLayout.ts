@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useAccount, useNetwork } from "wagmi";
+import { chains_data } from "../pages/_app";
 
 const useLayout = () => {
 
     const [connected, setConnected] = useState(false);
     const [correctChain, setCorrectChain] = useState(false);
 
-    const { chain } = useNetwork();
+    const { chain, chains } = useNetwork();
     const { address } = useAccount();
 
     useEffect(() => {
@@ -16,7 +17,7 @@ const useLayout = () => {
     }, [address])    
 
     useEffect(() => {
-        if(!chain?.unsupported){
+        if(chains_data.find(c => c.id === chain?.id)) {
             setCorrectChain(true);
         } else {
             setCorrectChain(false);

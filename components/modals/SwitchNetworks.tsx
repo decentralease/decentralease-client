@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import {
     Modal,
@@ -10,7 +10,8 @@ import {
     Button,
     VStack
   } from '@chakra-ui/react'
-import { useNetwork, useSwitchNetwork } from 'wagmi';
+import { useSwitchNetwork } from 'wagmi';
+import { chains_data } from '../../pages/_app';
 
 interface Props {
     isOpen: boolean;
@@ -19,7 +20,6 @@ interface Props {
 
 const SwitchNetworks : React.FC<Props> = ({ isOpen, onClose }) => {
 
-    const { chains } = useNetwork();
     const { switchNetwork } = useSwitchNetwork();
 
     const onClick = (chainId: number) => {
@@ -38,7 +38,7 @@ const SwitchNetworks : React.FC<Props> = ({ isOpen, onClose }) => {
                     spacing={4}
                 >
                     {
-                        chains.map((chain) => (
+                        chains_data.map((chain) => (
                             <Button
                                 key={chain.id}
                                 onClick={() => onClick(chain.id)}

@@ -13,7 +13,7 @@ const useCollections = () => {
         if (chain && collections.length === 0) {
             setCollections(getCollections(chain.id));
         }
-    })
+    }, [chain])
 
     return collections;
 }
